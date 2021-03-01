@@ -17,7 +17,7 @@ Please see [INSTALL.md](INSTALL.md).
 
 ### Testing on ZJU-Mocap
 
-We provide the pretrained models at [here](). The command lines for test are recorded in [test.sh](test.sh).
+We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9). The command lines for test are recorded in [test.sh](test.sh).
 
 Take the testing on `sequence 313` as an example.
 
