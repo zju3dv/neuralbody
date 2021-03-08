@@ -40,6 +40,8 @@ Take the testing on `sequence 313` as an example. The command lines for visualiz
     python run.py --type visualize --cfg_file configs/xyzc_demo_313.yaml exp_name xyzc_313
     # visualize novel views of dynamic humans
     python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313
+    # visualize mesh
+    python run.py --type visualize --cfg_file configs/latent_xyzc_mesh_313.yaml exp_name xyzc_313 train.num_workers 0
     ```
 3. The results of visualization are located at `$ROOT/data/render/xyzc_313` and `$ROOT/data/perform/xyzc_313`.
 
