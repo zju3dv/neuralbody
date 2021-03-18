@@ -9,3 +9,4 @@ opencv-python==3.4.2.17
 imageio==2.3.0
 trimesh==3.8.15
 plyfile==0.6
+PyMCubes==0.1.0

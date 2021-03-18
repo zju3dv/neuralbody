@@ -23,9 +23,19 @@ pip install spconv-1.2.1-cp36-cp36m-linux_x86_64.whl
 
 ### Set up datasets
 
+#### People-Snapshot dataset
+
+1. Download the People-Snapshot dataset [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
+2. Create a soft link:
+    ```
+    ROOT=/path/to/neuralbody
+    cd $ROOT/data
+    ln -s /path/to/people_snapshot people_snapshot
+    ```
+
 #### ZJU-Mocap dataset
 
-1. Download the ZJU-Mocap dataset from the official [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/ErlGNXydu1BChNQhlA4nYKwB1Yn1XEGFe56y4ipKGEoQIA?e=ET9eO1).
+1. Download the ZJU-Mocap dataset [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
 2. Create a soft link:
     ```
     ROOT=/path/to/neuralbody

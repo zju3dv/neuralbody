@@ -6,8 +6,8 @@ train_dataset_path: 'lib/datasets/light_stage/snapshot_mesh.py'
 test_dataset_module: 'lib.datasets.light_stage.snapshot_mesh'
 test_dataset_path: 'lib/datasets/light_stage/snapshot_mesh.py'
 
-network_module: 'lib.networks.latent_xyz_mesh'
-network_path: 'lib/networks/latent_xyz_mesh.py'
+network_module: 'lib.networks.latent_xyzc_mesh'
+network_path: 'lib/networks/latent_xyzc_mesh.py'
 renderer_module: 'lib.networks.renderer.if_mesh_renderer'
 renderer_path: 'lib/networks/renderer/if_mesh_renderer.py'
 

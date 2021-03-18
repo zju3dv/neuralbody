@@ -2,9 +2,14 @@ from lib.utils.if_nerf import voxels
 import numpy as np
 from lib.config import cfg
 import os
+from termcolor import colored
 
 
 class Visualizer:
+    def __init__(self):
+        result_dir = os.path.join(cfg.result_dir, 'mesh')
+        print(colored('the results are saved at {}'.format(result_dir), 'yellow'))
+
     def visualize_voxel(self, output, batch):
         cube = output['cube']
         cube = cube[10:-10, 10:-10, 10:-10]

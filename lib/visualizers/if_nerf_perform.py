@@ -3,9 +3,14 @@ import numpy as np
 from lib.config import cfg
 import cv2
 import os
+from termcolor import colored
 
 
 class Visualizer:
+    def __init__(self):
+        data_dir = 'data/perform/{}'.format(cfg.exp_name)
+        print(colored('the results are saved at {}'.format(data_dir), 'yellow'))
+
     def visualize(self, output, batch):
         rgb_pred = output['rgb_map'][0].detach().cpu().numpy()
 

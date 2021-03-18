@@ -13,13 +13,55 @@ Any questions or discussions are welcomed!
 
 Please see [INSTALL.md](INSTALL.md).
 
-## Testing
+## Run the code on People-Snapshot
 
-### Testing on ZJU-Mocap
+Please see [INSTALL.md](INSTALL.md) to download the dataset.
 
-We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9). The command lines for test are recorded in [test.sh](test.sh).
+We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
 
-Take the testing on `sequence 313` as an example.
+### Visualization on People-Snapshot
+
+Take the visualization on `female-3-casual` as an example. The command lines for visualization are recorded in [visualize.sh](visualize.sh).
+
+1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/female3c/latest.pth`.
+2. Visualization:
+    ```
+    # visualize novel views of single frame
+    python run.py --type visualize --cfg_file configs/snapshot_f3c_demo.yaml exp_name female3c
+    # visualize views of dynamic humans
+    python run.py --type visualize --cfg_file configs/snapshot_f3c_perform.yaml exp_name female3c
+    # visualize mesh
+    python run.py --type visualize --cfg_file configs/snapshot_f3c_mesh.yaml exp_name female3c train.num_workers 0
+    ```
+    3. The results of visualization are located at `$ROOT/data/render/female3c` and `$ROOT/data/perform/female3c`.
+
+### Training on People-Snapshot
+
+Take the training on `female-3-casual` as an example. The command lines for training are recorded in [train.sh](train.sh).
+
+1. Train:
+    ```
+    # training
+    python train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False
+    # distributed training
+    python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False gpus "0, 1, 2, 3" distributed True
+    ```
+2. Tensorboard:
+    ```
+    tensorboard --logdir data/record/if_nerf
+    ```
+
+## Run the code on ZJU-Mocap
+
+Please see [INSTALL.md](INSTALL.md) to download the dataset.
+
+We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
+
+### Test on ZJU-Mocap
+
+The command lines for test are recorded in [test.sh](test.sh).
+
+Take the test on `sequence 313` as an example.
 
 1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/xyzc_313/latest.pth`.
 2. Test:
@@ -27,11 +69,9 @@ Take the testing on `sequence 313` as an example.
     python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313
     ```
 
-## Visualization
-
 ### Visualization on ZJU-Mocap
 
-Take the testing on `sequence 313` as an example. The command lines for visualization are recorded in [visualize.sh](visualize.sh).
+Take the visualization on `sequence 313` as an example. The command lines for visualization are recorded in [visualize.sh](visualize.sh).
 
 1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/xyzc_313/latest.pth`.
 2. Visualization:
@@ -45,11 +85,9 @@ Take the testing on `sequence 313` as an example. The command lines for visualiz
     ```
 3. The results of visualization are located at `$ROOT/data/render/xyzc_313` and `$ROOT/data/perform/xyzc_313`.
 
-## Training
-
 ### Training on ZJU-Mocap
 
-Take the testing on `sequence 313` as an example. The command lines for training are recorded in [train.sh](train.sh).
+Take the training on `sequence 313` as an example. The command lines for training are recorded in [train.sh](train.sh).
 
 1. Train:
     ```

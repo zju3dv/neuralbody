@@ -1,3 +1,31 @@
+# People-Snapshot dataset
+
+# visualize novel views of single frame
+# python run.py --type visualize --cfg_file configs/snapshot_f3c_demo.yaml exp_name female3c
+# python run.py --type visualize --cfg_file configs/snapshot_f4c_demo.yaml exp_name female4c
+# python run.py --type visualize --cfg_file configs/snapshot_f6p_demo.yaml exp_name female6p
+# python run.py --type visualize --cfg_file configs/snapshot_f7p_demo.yaml exp_name female7p
+# python run.py --type visualize --cfg_file configs/snapshot_f8p_demo.yaml exp_name female8p
+# python run.py --type visualize --cfg_file configs/snapshot_m2c_demo.yaml exp_name male2c
+# python run.py --type visualize --cfg_file configs/snapshot_m2o_demo.yaml exp_name male2o
+# python run.py --type visualize --cfg_file configs/snapshot_m3c_demo.yaml exp_name male3c
+# python run.py --type visualize --cfg_file configs/snapshot_m5o_demo.yaml exp_name male5o
+
+# visualize views of dynamic humans
+# python run.py --type visualize --cfg_file configs/snapshot_f3c_perform.yaml exp_name female3c
+# python run.py --type visualize --cfg_file configs/snapshot_f4c_perform.yaml exp_name female4c
+# python run.py --type visualize --cfg_file configs/snapshot_f6p_perform.yaml exp_name female6p
+# python run.py --type visualize --cfg_file configs/snapshot_f7p_perform.yaml exp_name female7p
+# python run.py --type visualize --cfg_file configs/snapshot_f8p_perform.yaml exp_name female8p
+# python run.py --type visualize --cfg_file configs/snapshot_m2c_perform.yaml exp_name male2c
+# python run.py --type visualize --cfg_file configs/snapshot_m2o_perform.yaml exp_name male2o
+# python run.py --type visualize --cfg_file configs/snapshot_m3c_perform.yaml exp_name male3c
+# python run.py --type visualize --cfg_file configs/snapshot_m5o_perform.yaml exp_name male5o
+
+# visualize mesh
+
+# ZJU-Mocap dataset
+
 # visualize novel views of single frame
 # python run.py --type visualize --cfg_file configs/xyzc_demo_313.yaml exp_name xyzc_313
 # python run.py --type visualize --cfg_file configs/xyzc_demo_315.yaml exp_name xyzc_315

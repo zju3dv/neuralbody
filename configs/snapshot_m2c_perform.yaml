@@ -1,15 +1,15 @@
 task: 'if_nerf'
 gpus: [0]
 
-train_dataset_module: 'lib.datasets.light_stage.snapshot_mesh'
-train_dataset_path: 'lib/datasets/light_stage/snapshot_mesh.py'
-test_dataset_module: 'lib.datasets.light_stage.snapshot_mesh'
-test_dataset_path: 'lib/datasets/light_stage/snapshot_mesh.py'
+train_dataset_module: 'lib.datasets.light_stage.snapshot'
+train_dataset_path: 'lib/datasets/light_stage/snapshot.py'
+test_dataset_module: 'lib.datasets.light_stage.snapshot'
+test_dataset_path: 'lib/datasets/light_stage/snapshot.py'
 
-network_module: 'lib.networks.latent_xyzc_mesh'
-network_path: 'lib/networks/latent_xyzc_mesh.py'
-renderer_module: 'lib.networks.renderer.if_mesh_renderer'
-renderer_path: 'lib/networks/renderer/if_mesh_renderer.py'
+network_module: 'lib.networks.latent_xyz'
+network_path: 'lib/networks/latent_xyz.py'
+renderer_module: 'lib.networks.renderer.if_clight_renderer_msk'
+renderer_path: 'lib/networks/renderer/if_clight_renderer_msk.py'
 
 trainer_module: 'lib.train.trainers.if_nerf_clight'
 trainer_path: 'lib/train/trainers/if_nerf_clight.py'
@@ -17,11 +17,11 @@ trainer_path: 'lib/train/trainers/if_nerf_clight.py'
 evaluator_module: 'lib.evaluators.dtu.skinning'
 evaluator_path: 'lib/evaluators/dtu/skinning.py'
 
-visualizer_module: 'lib.visualizers.if_nerf_mesh'
-visualizer_path: 'lib/visualizers/if_nerf_mesh.py'
+visualizer_module: 'lib.visualizers.if_nerf_perform'
+visualizer_path: 'lib/visualizers/if_nerf_perform.py'
 
 train:
-    dataset: Female_1_casual_Train
+    dataset: Male_2_casual_Train
     batch_size: 1
     collator: ''
     lr: 5e-4
@@ -34,7 +34,7 @@ train:
     num_workers: 16
 
 test:
-    dataset: Female_1_casual_Test
+    dataset: Male_2_casual_Test
     batch_size: 1
     collator: ''
 
@@ -72,20 +72,21 @@ N_rand: 1024
 near: 1
 far: 3
 
-perturb: 1
+perturb: 0
 white_bkgd: False
 
 render_views: 50
 
 # data options
 res: 256
-ratio: 1.
-ni: 250
+ratio: 0.5
+begin_i: 0
+ni: 180
+
+H: 1080
+W: 1080
 
 voxel_size: [0.005, 0.005, 0.005]  # dhw
-
-# mesh options
-mesh_th: 75
 
 # record options
 log_interval: 1
