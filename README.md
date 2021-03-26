@@ -57,6 +57,14 @@ Please see [INSTALL.md](INSTALL.md) to download the dataset.
 
 We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
 
+### Potential problems of provided smpl parameters
+
+**The smpl parameters of ZJU-mocap have different definition from the one of MPI's smplx.**
+1. If you want to extract vertices from the provided smpl parameters, please use `zju_smpl/extract_vertices.py`.
+2. The reason that we use the current definition is described at [here](https://github.com/zju3dv/EasyMocap/blob/master/doc/02_output.md#attention-for-smplsmpl-x-users).
+
+It is okay to train Neural Body with smpl parameters fitted by smplx.
+
 ### Test on ZJU-Mocap
 
 The command lines for test are recorded in [test.sh](test.sh).

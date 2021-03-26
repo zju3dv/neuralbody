@@ -11,3 +11,4 @@ trimesh==3.8.15
 plyfile==0.6
 PyMCubes==0.1.0
 pyglet==1.4.0b1
+chumpy
