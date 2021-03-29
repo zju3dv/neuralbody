@@ -27,8 +27,7 @@ Take the visualization on `female-3-casual` as an example. The command lines for
 2. Visualization:
     * visualize novel views of single frame
     ```
-    python run.py --type visualize --cfg_file configs/snapshot_f3c_demo.yaml exp_name female3c
-    
+    python run.py --type visualize --cfg_file configs/snapshot_f3c_demo.yaml exp_name female3c render_views 144
     ```
 
     ![monocular](https://zju3dv.github.io/neuralbody/images/monocular_render.gif)
@@ -102,8 +101,7 @@ Take the visualization on `sequence 313` as an example. The command lines for vi
 2. Visualization:
     * visualize novel views of single frame
     ```
-    python run.py --type visualize --cfg_file configs/xyzc_demo_313.yaml exp_name xyzc_313
-    
+    python run.py --type visualize --cfg_file configs/xyzc_demo_313.yaml exp_name xyzc_313 render_views 100
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_render_313.gif)
 
