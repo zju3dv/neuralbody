@@ -13,6 +13,10 @@ Any questions or discussions are welcomed!
 
 Please see [INSTALL.md](INSTALL.md).
 
+## Run the code on the custom dataset
+
+Please see [CUSTOM.md](tools/custom).
+
 ## Run the code on People-Snapshot
 
 Please see [INSTALL.md](INSTALL.md) to download the dataset.
@@ -25,21 +29,21 @@ Take the visualization on `female-3-casual` as an example. The command lines for
 
 1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/female3c/latest.pth`.
 2. Visualization:
-    * visualize novel views of single frame
+    * Visualize novel views of single frame
     ```
     python run.py --type visualize --cfg_file configs/snapshot_f3c_demo.yaml exp_name female3c render_views 144
     ```
 
     ![monocular](https://zju3dv.github.io/neuralbody/images/monocular_render.gif)
 
-    * visualize views of dynamic humans with fixed camera
+    * Visualize views of dynamic humans with fixed camera
     ```
     python run.py --type visualize --cfg_file configs/snapshot_f3c_perform.yaml exp_name female3c
     ```
 
     ![monocular](https://zju3dv.github.io/neuralbody/images/monocular_perform.gif)
 
-    * visualize mesh
+    * Visualize mesh
     ```
     # generate meshes
     python run.py --type visualize --cfg_file configs/snapshot_f3c_mesh.yaml exp_name female3c train.num_workers 0
@@ -99,25 +103,25 @@ Take the visualization on `sequence 313` as an example. The command lines for vi
 
 1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/xyzc_313/latest.pth`.
 2. Visualization:
-    * visualize novel views of single frame
+    * Visualize novel views of single frame
     ```
     python run.py --type visualize --cfg_file configs/xyzc_demo_313.yaml exp_name xyzc_313 render_views 100
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_render_313.gif)
 
-    * visualize views of dynamic humans with fixed camera
+    * Visualize views of dynamic humans with fixed camera
     ```
     python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 1
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_perform_fixed_313.gif)
 
-    * visualize views of dynamic humans with rotated camera
+    * Visualize views of dynamic humans with rotated camera
     ```
-    python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 1
+    python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 100
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_perform_313.gif)
 
-    * visualize mesh
+    * Visualize mesh
     ```
     # generate meshes
     python run.py --type visualize --cfg_file configs/latent_xyzc_mesh_313.yaml exp_name xyzc_313 train.num_workers 0
