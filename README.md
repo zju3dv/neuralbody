@@ -15,7 +15,7 @@ Please see [INSTALL.md](INSTALL.md).
 
 ## Run the code on the custom dataset
 
-Please see [CUSTOM.md](tools/custom).
+Please see [CUSTOM](tools/custom).
 
 ## Run the code on People-Snapshot
 
