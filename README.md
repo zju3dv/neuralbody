@@ -23,6 +23,12 @@ Please see [INSTALL.md](INSTALL.md) to download the dataset.
 
 We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
 
+### Process People-Snapshot
+
+We already provide some processed data. If you want to process more videos of People-Snapshot, you could use [tools/process_snapshot.py](tools/process_snapshot.py).
+
+You can also visualize smpl parameters of People-Snapshot with [tools/vis_snapshot.py](tools/vis_snapshot.py).
+
 ### Visualization on People-Snapshot
 
 Take the visualization on `female-3-casual` as an example. The command lines for visualization are recorded in [visualize.sh](visualize.sh).
