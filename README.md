@@ -13,6 +13,10 @@ Any questions or discussions are welcomed!
 
 Please see [INSTALL.md](INSTALL.md).
 
+## Installation using docker
+
+Please see [docker/README.md](docker/README.md).
+
 ## Run the code on the custom dataset
 
 Please see [CUSTOM](tools/custom).
