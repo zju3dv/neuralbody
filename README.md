@@ -11,11 +11,13 @@ Any questions or discussions are welcomed!
 
 ## Installation
 
-Please see [INSTALL.md](INSTALL.md).
+Please see [INSTALL.md](INSTALL.md) for manual installation.
 
-## Installation using docker
+### Installation using docker
 
 Please see [docker/README.md](docker/README.md).
+
+Thanks to [Zhaoyi Wan](https://github.com/wanzysky) for providing the docker implementation.
 
 ## Run the code on the custom dataset
 
