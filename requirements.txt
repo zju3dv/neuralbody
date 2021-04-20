@@ -1,11 +1,11 @@
-open3d==0.9.0.0
+open3d>=0.9.0.0
 PyYAML==5.3.1
 tqdm==4.28.1
 tensorboardX==1.2
 termcolor==1.1.0
 scikit-image==0.14.2
-opencv-contrib-python==3.4.2.17
-opencv-python==3.4.2.17
+opencv-contrib-python>=3.4.2.17
+opencv-python>=3.4.2.17,<4
 imageio==2.3.0
 trimesh==3.8.15
 plyfile==0.6
