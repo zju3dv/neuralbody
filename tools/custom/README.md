@@ -71,9 +71,10 @@ Example camera files can be found in [camera_params](camera_params).
     python train_net.py --cfg_file configs/custom.yaml exp_name <exp_name> ni 1000 training_view "0, 1, 2, 3" resume False
     ```
 6. Visualization. Please refer to [Visualization on ZJU-MoCap](https://github.com/zju3dv/neuralbody#visualization-on-zju-mocap) as an example.
-    * visualize novel views of single frame
+    * Visualize novel views of single frame. **Note that models with monocular videos can only be visualized with `custom_rotate_demo.yaml`.**
     ```
     python run.py --type visualize --cfg_file configs/custom_demo.yaml exp_name <exp_name> render_views 100
+    python run.py --type visualize --cfg_file configs/custom_rotate_demo.yaml exp_name <exp_name>
     ```
 
     * Visualize views of dynamic humans with fixed camera

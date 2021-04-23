@@ -1,0 +1,93 @@
+task: 'if_nerf'
+gpus: [0]
+
+train_dataset_module: 'lib.datasets.light_stage.can_smpl_demo'
+train_dataset_path: 'lib/datasets/light_stage/can_smpl_demo.py'
+test_dataset_module: 'lib.datasets.light_stage.rotate_smpl'
+test_dataset_path: 'lib/datasets/light_stage/rotate_smpl.py'
+
+network_module: 'lib.networks.latent_xyzc'
+network_path: 'lib/networks/latent_xyzc.py'
+renderer_module: 'lib.networks.renderer.if_clight_renderer'
+renderer_path: 'lib/networks/renderer/if_clight_renderer.py'
+
+trainer_module: 'lib.train.trainers.if_nerf_clight'
+trainer_path: 'lib/train/trainers/if_nerf_clight.py'
+
+evaluator_module: 'lib.evaluators.if_nerf'
+evaluator_path: 'lib/evaluators/if_nerf.py'
+
+visualizer_module: 'lib.visualizers.if_nerf_demo'
+visualizer_path: 'lib/visualizers/if_nerf_demo.py'
+
+human: 313
+
+train:
+    dataset: Human313_0001_Train
+    batch_size: 1
+    collator: ''
+    lr: 5e-4
+    weight_decay: 0
+    epoch: 400
+    scheduler:
+        type: 'exponential'
+        gamma: 0.1
+        decay_epochs: 1000
+    num_workers: 16
+
+test:
+    dataset: Human313_0001_Test
+    batch_size: 1
+    collator: ''
+
+ep_iter: 500
+save_ep: 1000
+eval_ep: 1000
+
+# training options
+netdepth: 8
+netwidth: 256
+netdepth_fine: 8
+netwidth_fine: 256
+netchunk: 65536
+chunk: 32768
+
+no_batching: True
+
+precrop_iters: 500
+precrop_frac: 0.5
+
+# network options
+point_feature: 6
+
+# rendering options
+use_viewdirs: True
+i_embed: 0
+xyz_res: 10
+view_res: 4
+raw_noise_std: 0
+
+N_samples: 64
+N_importance: 128
+N_rand: 1024
+
+near: 1
+far: 3
+
+perturb: 1
+white_bkgd: False
+
+render_views: 50
+
+# data options
+res: 256
+ratio: 0.5
+intv: 6
+ni: 60
+smpl: 'smpl'
+params: 'params'
+
+voxel_size: [0.005, 0.005, 0.005]  # dhw
+
+# record options
+log_interval: 1

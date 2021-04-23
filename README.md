@@ -115,6 +115,12 @@ Take the visualization on `sequence 313` as an example. The command lines for vi
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_render_313.gif)
 
+    * Visualize novel views of single frame by rotating the SMPL model
+    ```
+    python run.py --type visualize --cfg_file configs/xyzc_rotate_demo_313.yaml exp_name xyzc_313 render_views 100
+    ```
+    ![zju_mocap](https://zju3dv.github.io/neuralbody/images/rotate_smpl.gif)
+
     * Visualize views of dynamic humans with fixed camera
     ```
     python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 1
