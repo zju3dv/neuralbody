@@ -131,7 +131,7 @@ Take the visualization on `sequence 313` as an example. The command lines for vi
     ```
     python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 1
     ```
-    ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_perform_fixed_313.gif)
+    ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_perform_fixed_313.gif) 
 
     * Visualize views of dynamic humans with rotated camera
     ```
@@ -147,8 +147,13 @@ Take the visualization on `sequence 313` as an example. The command lines for vi
     python tools/render_mesh.py --exp_name xyzc_313 --dataset zju_mocap --mesh_ind 0
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_mesh.gif)
+3. Visualization on unseen human poses:
+    ```
+    python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_ni 500 render_views 1 
+    ```
+    ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_novel_pose_313.gif)
 
-3. The results of visualization are located at `$ROOT/data/render/xyzc_313` and `$ROOT/data/perform/xyzc_313`.
+4. The results of visualization are located at `$ROOT/data/render/xyzc_313` and `$ROOT/data/perform/xyzc_313`.
 
 ### Training on ZJU-MoCap
 

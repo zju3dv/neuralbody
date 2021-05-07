@@ -28,9 +28,12 @@ class Dataset(data.Dataset):
 
         i = 0
         i = i + cfg.begin_i
+        ni = cfg.ni
+        if cfg.render_ni > 0:
+            ni = cfg.render_ni
         self.ims = np.array([
             np.array(ims_data['ims'])[cfg.training_view]
-            for ims_data in annots['ims'][i:i + cfg.ni * cfg.i_intv]
+            for ims_data in annots['ims'][i:i + ni * cfg.i_intv]
         ])
 
         self.K = K[0]
@@ -39,9 +42,10 @@ class Dataset(data.Dataset):
         self.Ks = np.array(K)[cfg.training_view].astype(np.float32)
         self.RT = np.array(RT)[cfg.training_view].astype(np.float32)
 
-        self.Ds = np.array(self.cams['D'])[cfg.training_view].astype(np.float32)
+        self.Ds = np.array(self.cams['D'])[cfg.training_view].astype(
+            np.float32)
 
-        self.ni = cfg.ni * cfg.i_intv
+        self.ni = ni * cfg.i_intv
 
     def prepare_input(self, i):
         i = i + cfg.begin_i
@@ -134,10 +138,11 @@ class Dataset(data.Dataset):
         return msks
 
     def __getitem__(self, index):
-        i = index
-        feature, coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(i)
+        frame_index = index
+        feature, coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
+            frame_index)
 
-        msks = self.get_mask(i)
+        msks = self.get_mask(frame_index)
 
         # reduce the image resolution by ratio
         H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
@@ -165,9 +170,15 @@ class Dataset(data.Dataset):
         }
 
         R = cv2.Rodrigues(Rh)[0].astype(np.float32)
-        i = int(np.round(index / cfg.i_intv))
+        i = int(np.round(frame_index / cfg.i_intv))
         i = min(i, cfg.ni - 1)
-        meta = {'bounds': bounds, 'R': R, 'Th': Th, 'i': i, 'index': index}
+        meta = {
+            'bounds': bounds,
+            'R': R,
+            'Th': Th,
+            'i': i,
+            'index': frame_index
+        }
         ret.update(meta)
 
         meta = {'msks': msks, 'Ks': self.Ks, 'RT': self.RT}

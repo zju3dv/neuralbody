@@ -20,6 +20,7 @@ cfg.training_view = [0, 6, 12, 18]
 cfg.intv = 1
 cfg.begin_i = 0  # the first smpl
 cfg.ni = 1  # number of smpls
+cfg.render_ni = -1  # number of frames to render
 cfg.i = 1  # the i-th smpl
 cfg.i_intv = 1
 cfg.nv = 6890  # number of vertices
