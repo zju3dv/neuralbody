@@ -45,22 +45,6 @@ ep_iter: 500
 save_ep: 1000
 eval_ep: 1000
 
-# training options
-netdepth: 8
-netwidth: 256
-netdepth_fine: 8
-netwidth_fine: 256
-netchunk: 65536
-chunk: 32768
-
-no_batching: True
-
-precrop_iters: 500
-precrop_frac: 0.5
-
-# network options
-point_feature: 6
-
 # rendering options
 use_viewdirs: True
 i_embed: 0
@@ -72,19 +56,17 @@ N_samples: 64
 N_importance: 128
 N_rand: 1024
 
-near: 1
-far: 3
-
 perturb: 1
 white_bkgd: False
 
 render_views: 50
 
 # data options
-res: 256
 ratio: 0.5
+training_view: [0, 6, 12, 18]
 intv: 6
 ni: 60
+novel_pose_ni: 100
 smpl: 'smpl'
 params: 'params'
 

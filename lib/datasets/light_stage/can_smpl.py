@@ -28,16 +28,22 @@ class Dataset(data.Dataset):
         if len(view) == 0:
             view = [0]
 
+        # prepare input images
         i = 0
         i = i + cfg.begin_i
         i_intv = cfg.i_intv
+        ni = cfg.ni
+        if cfg.test_novel_pose:
+            i = (i + cfg.ni) * i_intv
+            ni = cfg.novel_pose_ni
+
         self.ims = np.array([
             np.array(ims_data['ims'])[view]
-            for ims_data in annots['ims'][i:i + cfg.ni * i_intv][::i_intv]
+            for ims_data in annots['ims'][i:i + ni * i_intv][::i_intv]
         ]).ravel()
         self.cam_inds = np.array([
             np.arange(len(ims_data['ims']))[view]
-            for ims_data in annots['ims'][i:i + cfg.ni * i_intv][::i_intv]
+            for ims_data in annots['ims'][i:i + ni * i_intv][::i_intv]
         ]).ravel()
         self.num_cams = len(view)
 
@@ -183,6 +189,8 @@ class Dataset(data.Dataset):
 
         R = cv2.Rodrigues(Rh)[0].astype(np.float32)
         i = index // self.num_cams
+        if cfg.test_novel_pose:
+            i = 0
         meta = {
             'bounds': bounds,
             'R': R,

@@ -104,9 +104,13 @@ The command lines for test are recorded in [test.sh](test.sh).
 Take the test on `sequence 313` as an example.
 
 1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/xyzc_313/latest.pth`.
-2. Test:
+2. Test on training human poses:
     ```
     python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313
+    ```
+3. Test on unseen human poses:
+    ```
+    python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 test_novel_pose True novel_pose_ni 100
     ```
 
 ### Visualization on ZJU-MoCap
