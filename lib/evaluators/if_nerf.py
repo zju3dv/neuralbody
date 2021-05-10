@@ -3,6 +3,7 @@ from lib.config import cfg
 from skimage.measure import compare_ssim
 import os
 import cv2
+from termcolor import colored
 
 
 class Evaluator:
@@ -10,6 +11,11 @@ class Evaluator:
         self.mse = []
         self.psnr = []
         self.ssim = []
+
+        result_dir = cfg.result_dir
+        print(
+            colored('the results are saved at {}'.format(result_dir),
+                    'yellow'))
 
     def psnr_metric(self, img_pred, img_gt):
         mse = np.mean((img_pred - img_gt)**2)
@@ -29,6 +35,20 @@ class Evaluator:
         x, y, w, h = cv2.boundingRect(mask_at_box.astype(np.uint8))
         img_pred = img_pred[y:y + h, x:x + w]
         img_gt = img_gt[y:y + h, x:x + w]
+
+        result_dir = os.path.join(cfg.result_dir, 'comparison')
+        os.system('mkdir -p {}'.format(result_dir))
+        frame_index = batch['frame_index'].item()
+        view_index = batch['cam_ind'].item()
+        cv2.imwrite(
+            '{}/frame{:04d}_view{:04d}.png'.format(result_dir, frame_index,
+                                                   view_index),
+            (img_pred[..., [2, 1, 0]] * 255))
+        cv2.imwrite(
+            '{}/frame{:04d}_view{:04d}_gt.png'.format(result_dir, frame_index,
+                                                      view_index),
+            (img_gt[..., [2, 1, 0]] * 255))
+
         # compute the ssim
         ssim = compare_ssim(img_pred, img_gt, multichannel=True)
         return ssim

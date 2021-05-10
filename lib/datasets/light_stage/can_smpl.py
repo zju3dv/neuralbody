@@ -156,6 +156,7 @@ class Dataset(data.Dataset):
             i = int(os.path.basename(img_path).split('_')[4])
         else:
             i = int(os.path.basename(img_path)[:-4])
+        frame_index = i
         feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans = self.prepare_input(
             i)
 
@@ -199,6 +200,7 @@ class Dataset(data.Dataset):
             'rot': rot,
             'trans': trans,
             'i': i,
+            'frame_index': frame_index,
             'cam_ind': cam_ind
         }
         ret.update(meta)
