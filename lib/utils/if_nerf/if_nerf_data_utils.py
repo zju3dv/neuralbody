@@ -93,8 +93,6 @@ def sample_ray_grid(img, msk, K, R, T, bounds, nrays, split):
     pose = np.concatenate([R, T], axis=1)
     bound_mask = get_bound_2d_mask(bounds, K, pose, H, W)
 
-    img[bound_mask != 1] = 0
-
     if split == 'train':
         nsampled_rays = 0
         face_sample_ratio = cfg.face_sample_ratio
@@ -194,7 +192,6 @@ def sample_ray(img, msk, K, R, T, bounds, nrays, split):
     pose = np.concatenate([R, T], axis=1)
     bound_mask = get_bound_2d_mask(bounds, K, pose, H, W)
 
-    img[bound_mask != 1] = 0
     msk = msk * bound_mask
 
     if split == 'train':
@@ -276,7 +273,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     pose = np.concatenate([R, T], axis=1)
     bound_mask = get_bound_2d_mask(bounds, K, pose, H, W)
 
-    img[bound_mask != 1] = 0
     msk = msk * bound_mask
     bound_mask[msk == 100] = 0
 

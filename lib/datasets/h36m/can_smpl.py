@@ -130,25 +130,16 @@ class Dataset(data.Dataset):
         msk = cv2.resize(msk, (W, H), interpolation=cv2.INTER_NEAREST)
         if cfg.mask_bkgd:
             img[msk == 0] = 0
+            if cfg.white_bkgd:
+                img[msk == 0] = 1
         K[:2] = K[:2] * cfg.ratio
 
         i = int(os.path.basename(img_path)[:-4])
         feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans = self.prepare_input(
             i)
 
-        if cfg.sample_smpl:
-            depth_path = os.path.join(self.data_root, 'depth',
-                                      self.ims[index])[:-4] + '.npy'
-            depth = np.load(depth_path)
-            rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_smpl_ray(
-                img, msk, depth, K, R, T, self.nrays, self.split)
-        elif cfg.sample_grid:
-            # print('sample_grid')
-            rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_grid(
-                img, msk, K, R, T, can_bounds, self.nrays, self.split)
-        else:
-            rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_h36m(
-                img, msk, K, R, T, can_bounds, self.nrays, self.split)
+        rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_h36m(
+            img, msk, K, R, T, can_bounds, self.nrays, self.split)
         acc = if_nerf_dutils.get_acc(coord_, msk)
 
         ret = {

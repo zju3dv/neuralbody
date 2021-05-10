@@ -100,7 +100,10 @@ class Dataset(data.Dataset):
         H, W = int(img.shape[0] * cfg.ratio), int(img.shape[1] * cfg.ratio)
         img = cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA)
         msk = cv2.resize(msk, (W, H), interpolation=cv2.INTER_NEAREST)
-        img[msk == 0] = 0
+        if cfg.mask_bkgd:
+            img[msk == 0] = 0
+            if cfg.white_bkgd:
+                img[msk == 0] = 1
         K = K.copy().astype(np.float32)
         K[:2] = K[:2] * cfg.ratio
 

@@ -78,7 +78,12 @@ Take the training on `female-3-casual` as an example. The command lines for trai
     # distributed training
     python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False gpus "0, 1, 2, 3" distributed True
     ```
-2. Tensorboard:
+2. Train with white background:
+    ```
+    # training
+    python train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False white_bkgd True
+    ```
+3. Tensorboard:
     ```
     tensorboard --logdir data/record/if_nerf
     ```
@@ -170,7 +175,12 @@ Take the training on `sequence 313` as an example. The command lines for trainin
     # distributed training
     python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 resume False gpus "0, 1, 2, 3" distributed True
     ```
-2. Tensorboard:
+2. Train with white background:
+    ```
+    # training
+    python train_net.py --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 resume False white_bkgd True
+    ```
+3. Tensorboard:
     ```
     tensorboard --logdir data/record/if_nerf
     ```
