@@ -36,6 +36,8 @@ class Dataset(data.Dataset):
         if cfg.test_novel_pose:
             i = (i + cfg.ni) * i_intv
             ni = cfg.novel_pose_ni
+            if self.human == 'CoreView_390':
+                i = 0
 
         self.ims = np.array([
             np.array(ims_data['ims'])[view]

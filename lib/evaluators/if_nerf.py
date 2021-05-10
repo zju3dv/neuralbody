@@ -12,11 +12,6 @@ class Evaluator:
         self.psnr = []
         self.ssim = []
 
-        result_dir = cfg.result_dir
-        print(
-            colored('the results are saved at {}'.format(result_dir),
-                    'yellow'))
-
     def psnr_metric(self, img_pred, img_gt):
         mse = np.mean((img_pred - img_gt)**2)
         psnr = -10 * np.log(mse) / np.log(10)
@@ -67,6 +62,11 @@ class Evaluator:
         self.ssim.append(ssim)
 
     def summarize(self):
+        result_dir = cfg.result_dir
+        print(
+            colored('the results are saved at {}'.format(result_dir),
+                    'yellow'))
+
         result_path = os.path.join(cfg.result_dir, 'metrics.npy')
         os.system('mkdir -p {}'.format(os.path.dirname(result_path)))
         metrics = {'mse': self.mse, 'psnr': self.psnr, 'ssim': self.ssim}
