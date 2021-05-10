@@ -19,6 +19,8 @@ class Visualizer:
         mask_at_box = mask_at_box.reshape(H, W)
 
         img_pred = np.zeros((H, W, 3))
+        if cfg.white_bkgd:
+            img_pred = img_pred + 1
         img_pred[mask_at_box] = rgb_pred
         img_pred = img_pred[..., [2, 1, 0]]
 

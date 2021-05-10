@@ -14,9 +14,13 @@ class Visualizer:
         mask_at_box = mask_at_box.reshape(H, W)
 
         img_pred = np.zeros((H, W, 3))
+        if cfg.white_bkgd:
+            img_pred = img_pred + 1
         img_pred[mask_at_box] = rgb_pred
 
         img_gt = np.zeros((H, W, 3))
+        if cfg.white_bkgd:
+            img_gt = img_gt + 1
         img_gt[mask_at_box] = rgb_gt
 
         _, (ax1, ax2) = plt.subplots(1, 2)
