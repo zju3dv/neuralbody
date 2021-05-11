@@ -84,6 +84,8 @@ class Dataset(data.Dataset):
         msk_path = os.path.join(self.data_root, 'mask', '{}.png'.format(index))
         msk = imageio.imread(msk_path)
 
+        frame_index = index
+
         K = self.cam['K']
         D = self.cam['D']
         img = cv2.undistort(img, K, D)
@@ -132,7 +134,7 @@ class Dataset(data.Dataset):
             'rot': rot,
             'trans': trans,
             'i': index,
-            'index': 0
+            'index': frame_index
         }
         ret.update(meta)
 
