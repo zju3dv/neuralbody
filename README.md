@@ -1,5 +1,6 @@
 **News**
 
+* `05/12/2021` The code supports the test and visualization on unseen human poses.
 * `05/12/2021` We update the ZJU-MoCap dataset with better fitted SMPL using [EasyMocap](https://github.com/zju3dv/EasyMocap). We also release a [website](https://zju3dv.github.io/zju_mocap/) for visualization. Please see [here](https://github.com/zju3dv/neuralbody#potential-problems-of-provided-smpl-parameters) for the usage of provided smpl parameters.
 
 # Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans
