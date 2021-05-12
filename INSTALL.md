@@ -35,7 +35,7 @@ pip install spconv-1.2.1-cp36-cp36m-linux_x86_64.whl
 
 #### ZJU-Mocap dataset
 
-1. Download the ZJU-Mocap dataset [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Eo9zn4x_xcZKmYHZNjzel7gBdWf_d4m-pISHhPWB-GZBYw?e=Hf4mz7).
+1. Download the ZJU-Mocap dataset using the [script](zju_smpl/download.sh) or from [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Eo9zn4x_xcZKmYHZNjzel7gBdWf_d4m-pISHhPWB-GZBYw?e=Hf4mz7).
 2. Create a soft link:
     ```
     ROOT=/path/to/neuralbody

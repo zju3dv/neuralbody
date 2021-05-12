@@ -140,7 +140,7 @@ def vertices2landmarks(vertices, faces, lmk_faces_idx, lmk_bary_coords):
 
 
 def lbs(betas, pose, v_template, shapedirs, posedirs, J_regressor, parents,
-        lbs_weights, pose2rot=True, dtype=torch.float32):
+        lbs_weights, pose2rot=True, new_params=False, dtype=torch.float32):
     ''' Performs Linear Blend Skinning with the given shape and pose parameters
 
         Parameters
@@ -207,8 +207,11 @@ def lbs(betas, pose, v_template, shapedirs, posedirs, J_regressor, parents,
         pose_offsets = torch.matmul(pose_feature.view(batch_size, -1),
                                     posedirs).view(batch_size, -1, 3)
 
-    v_posed = v_shaped
-    # v_posed = pose_offsets + v_shaped
+    if new_params:
+        v_posed = pose_offsets + v_shaped
+    else:
+        v_posed = v_shaped
+
     # 4. Get the global joint location
     J_transformed, A = batch_rigid_transform(rot_mats, J, parents, dtype=dtype)
 

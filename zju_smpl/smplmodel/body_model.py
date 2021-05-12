@@ -94,6 +94,7 @@ class SMPLlayer(nn.Module):
                 return_verts=True,
                 return_tensor=True,
                 scale=1,
+                new_params=False,
                 **kwargs):
         """ Forward pass for SMPL model
 
@@ -127,6 +128,7 @@ class SMPLlayer(nn.Module):
                                    self.parents,
                                    self.weights,
                                    pose2rot=True,
+                                   new_params=new_params,
                                    dtype=self.dtype)
         else:
             vertices, joints = lbs(shapes,
@@ -138,6 +140,7 @@ class SMPLlayer(nn.Module):
                                    self.parents,
                                    self.j_weights,
                                    pose2rot=True,
+                                   new_params=new_params,
                                    dtype=self.dtype)
             vertices = vertices[:, 24:, :]
         # transl = transl + joints[:, :1] * scale - torch.matmul(joints[:, :1],

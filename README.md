@@ -1,3 +1,7 @@
+**News**
+
+* `05/12/2021` We update the ZJU-MoCap dataset with better fitted SMPL using [EasyMocap](https://github.com/zju3dv/EasyMocap). We also release a [website](https://zju3dv.github.io/zju_mocap/) for visualization. Please see [here](https://github.com/zju3dv/neuralbody#potential-problems-of-provided-smpl-parameters) for the usage of provided smpl parameters.
+
 # Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans
 ### [Project Page](https://zju3dv.github.io/neuralbody) | [Video](https://www.youtube.com/watch?v=BPCAMeBCE-8) | [Paper](https://arxiv.org/pdf/2012.15838.pdf) | [Data](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Eo9zn4x_xcZKmYHZNjzel7gBdWf_d4m-pISHhPWB-GZBYw?e=Hf4mz7)
 
@@ -96,9 +100,10 @@ We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f
 
 ### Potential problems of provided smpl parameters
 
-**The smpl parameters of ZJU-MoCap have different definition from the one of MPI's smplx.**
-1. If you want to extract vertices from the provided smpl parameters, please use `zju_smpl/extract_vertices.py`.
-2. The reason that we use the current definition is described at [here](https://github.com/zju3dv/EasyMocap/blob/master/doc/02_output.md#attention-for-smplsmpl-x-users).
+1. The newly fitted parameters locate in `new_params`. Currently, the released pretrained models are trained on previously fitted parameters, which locate in `params`. We will release pretrained models on `new_params` recently.
+2. The smpl parameters of ZJU-MoCap have different definition from the one of MPI's smplx.
+    * If you want to extract vertices from the provided smpl parameters, please use `zju_smpl/extract_vertices.py`.
+    * The reason that we use the current definition is described at [here](https://github.com/zju3dv/EasyMocap/blob/master/doc/02_output.md#attention-for-smplsmpl-x-users).
 
 It is okay to train Neural Body with smpl parameters fitted by smplx.
 
