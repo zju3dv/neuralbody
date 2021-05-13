@@ -158,9 +158,10 @@ class Dataset(data.Dataset):
 
         if self.human in ['CoreView_313', 'CoreView_315']:
             i = int(os.path.basename(img_path).split('_')[4])
+            frame_index = i - 1
         else:
             i = int(os.path.basename(img_path)[:-4])
-        frame_index = i
+            frame_index = i
         feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans = self.prepare_input(
             i)
 

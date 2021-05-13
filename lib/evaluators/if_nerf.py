@@ -17,19 +17,14 @@ class Evaluator:
         psnr = -10 * np.log(mse) / np.log(10)
         return psnr
 
-    def ssim_metric(self, rgb_pred, rgb_gt, batch):
-        mask_at_box = batch['mask_at_box'][0].detach().cpu().numpy()
-        H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
-        mask_at_box = mask_at_box.reshape(H, W)
-        # convert the pixels into an image
-        img_pred = np.zeros((H, W, 3))
-        img_pred[mask_at_box] = rgb_pred
-        img_gt = np.zeros((H, W, 3))
-        img_gt[mask_at_box] = rgb_gt
-        # crop the object region
-        x, y, w, h = cv2.boundingRect(mask_at_box.astype(np.uint8))
-        img_pred = img_pred[y:y + h, x:x + w]
-        img_gt = img_gt[y:y + h, x:x + w]
+    def ssim_metric(self, img_pred, img_gt, batch):
+        if not cfg.eval_whole_img:
+            mask_at_box = batch['mask_at_box'][0].detach().cpu().numpy()
+            H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
+            # crop the object region
+            x, y, w, h = cv2.boundingRect(mask_at_box.astype(np.uint8))
+            img_pred = img_pred[y:y + h, x:x + w]
+            img_gt = img_gt[y:y + h, x:x + w]
 
         result_dir = os.path.join(cfg.result_dir, 'comparison')
         os.system('mkdir -p {}'.format(result_dir))
@@ -52,6 +47,19 @@ class Evaluator:
         rgb_pred = output['rgb_map'][0].detach().cpu().numpy()
         rgb_gt = batch['rgb'][0].detach().cpu().numpy()
 
+        mask_at_box = batch['mask_at_box'][0].detach().cpu().numpy()
+        H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
+        mask_at_box = mask_at_box.reshape(H, W)
+        # convert the pixels into an image
+        img_pred = np.zeros((H, W, 3))
+        img_pred[mask_at_box] = rgb_pred
+        img_gt = np.zeros((H, W, 3))
+        img_gt[mask_at_box] = rgb_gt
+
+        if cfg.eval_whole_img:
+            rgb_pred = img_pred
+            rgb_gt = img_gt
+
         mse = np.mean((rgb_pred - rgb_gt)**2)
         self.mse.append(mse)
 
@@ -70,7 +78,7 @@ class Evaluator:
         result_path = os.path.join(cfg.result_dir, 'metrics.npy')
         os.system('mkdir -p {}'.format(os.path.dirname(result_path)))
         metrics = {'mse': self.mse, 'psnr': self.psnr, 'ssim': self.ssim}
-        np.save(result_path, self.mse)
+        np.save(result_path, metrics)
         print('mse: {}'.format(np.mean(self.mse)))
         print('psnr: {}'.format(np.mean(self.psnr)))
         print('ssim: {}'.format(np.mean(self.ssim)))

@@ -112,6 +112,7 @@ cfg.result_dir = 'data/result'
 cfg.skip_eval = False
 cfg.test_novel_pose = False
 cfg.novel_pose_ni = 100
+cfg.eval_whole_img = False
 
 cfg.fix_random = False
 
