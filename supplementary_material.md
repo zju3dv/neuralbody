@@ -113,7 +113,7 @@ As a result, the PSNR and SSIM metrics appear very high performances, as shown i
    </tr>
 </table>
 
-To overcome this problem, a solution is to only calculate the metrics on pixels inside the `bound_mask`. Since the SSIM metric requires the input to have the image format, we first compute the 2D box that bounds the `bound_mask` and then crop the corresponding image region. 
+To overcome this problem, a solution is to only calculating the metrics on pixels inside the `bound_mask`. Since the SSIM metric requires the input to have the image format, we first compute the 2D box that bounds the `bound_mask` and then crop the corresponding image region. 
 
 ```python
 def ssim_metric(rgb_pred, rgb_gt, batch):
