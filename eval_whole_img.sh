@@ -1,3 +1,4 @@
+python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 eval_whole_img True gpus "3,"
 python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 eval_whole_img True gpus "3," test_novel_pose True novel_pose_ni 1000
 
 python run.py --type evaluate --cfg_file configs/latent_xyzc_315.yaml exp_name xyzc_315 eval_whole_img True gpus "3,"
