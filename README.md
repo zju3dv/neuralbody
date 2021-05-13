@@ -1,6 +1,6 @@
 **News**
 
-* `05/13/2021` To make the following works easier compare with our model, we save our rendering results of ZJU-MoCap at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Ea3VOUy204VAiVJ-V-OGd9YBxdhbtfpS-U6icD_rDq0mUQ?e=cAcylK) and write a [document](supplementary_material.md) to describe the training and test protocols.
+* `05/13/2021` To make the following works easier compare with our model, we save our rendering results of ZJU-MoCap at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Ea3VOUy204VAiVJ-V-OGd9YBxdhbtfpS-U6icD_rDq0mUQ?e=cAcylK) and write a [document](supplementary_material.md) that describes the training and test protocols.
 * `05/12/2021` The code supports the test and visualization on unseen human poses.
 * `05/12/2021` We update the ZJU-MoCap dataset with better fitted SMPL using [EasyMocap](https://github.com/zju3dv/EasyMocap). We also release a [website](https://zju3dv.github.io/zju_mocap/) for visualization. Please see [here](https://github.com/zju3dv/neuralbody#potential-problems-of-provided-smpl-parameters) for the usage of provided smpl parameters.
 
