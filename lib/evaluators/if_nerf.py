@@ -21,6 +21,7 @@ class Evaluator:
         if not cfg.eval_whole_img:
             mask_at_box = batch['mask_at_box'][0].detach().cpu().numpy()
             H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
+            mask_at_box = mask_at_box.reshape(H, W)
             # crop the object region
             x, y, w, h = cv2.boundingRect(mask_at_box.astype(np.uint8))
             img_pred = img_pred[y:y + h, x:x + w]
@@ -66,6 +67,8 @@ class Evaluator:
         psnr = self.psnr_metric(rgb_pred, rgb_gt)
         self.psnr.append(psnr)
 
+        rgb_pred = img_pred
+        rgb_gt = img_gt
         ssim = self.ssim_metric(rgb_pred, rgb_gt, batch)
         self.ssim.append(ssim)
 
