@@ -221,3 +221,241 @@ The following table lists corresponding results.
       <td>0.885 </td>
    </tr>
 </table>
+
+## Results of other methods on ZJU-MoCap
+
+We save rendering results of other methods on novel views of training frames and unseen human poses at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/EQaPRQww70NDqEXeSG-fOeAB5JXFSWiWDW223h5nmkHvwQ?e=mdofbl), including Neural Volumes, Multi-view Neural Human Rendering, and Deferred Neural Human Rendering. **Note that we only generate novel views of training frames for Neural Volumes.**
+
+The following table lists quantitative results of Neural Volumes.
+
+<table style="text-align: center">
+    <tr>
+        <td></td>
+        <td>PSNR</td>
+        <td>SSIM</td>
+    </tr>
+    <tr>
+        <td>313</td>
+        <td>20.09 </td>
+        <td>0.831 </td>
+    </tr>
+    <tr>
+        <td>315</td>
+        <td>18.57 </td>
+        <td>0.824 </td>
+    </tr>
+    <tr>
+        <td>392</td>
+        <td>22.88 </td>
+        <td>0.726 </td>
+    </tr>
+    <tr>
+        <td>394</td>
+        <td>22.08 </td>
+        <td>0.843 </td>
+    </tr>
+    <tr>
+        <td>393</td>
+        <td>21.29 </td>
+        <td>0.842 </td>
+    </tr>
+    <tr>
+        <td>377</td>
+        <td>21.15 </td>
+        <td>0.842 </td>
+    </tr>
+    <tr>
+        <td>386</td>
+        <td>23.21 </td>
+        <td>0.820 </td>
+    </tr>
+    <tr>
+        <td>387</td>
+        <td>20.74 </td>
+        <td>0.838 </td>
+    </tr>
+    <tr>
+        <td>390</td>
+        <td>22.49 </td>
+        <td>0.825 </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>21.39 </td>
+        <td>0.821 </td>
+    </tr>
+</table>
+
+The following table lists quantitative results of Multi-view Neural Human Rendering.
+
+<table style="text-align: center">
+    <tr>
+        <td></td>
+        <td colspan="2">Training frames</td>
+        <td colspan="2">Unseen human poses</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>PSNR</td>
+        <td>SSIM</td>
+        <td>PSNR</td>
+        <td>SSIM</td>
+    </tr>
+    <tr>
+        <td>313</td>
+        <td>26.68 </td>
+        <td>0.935 </td>
+        <td>23.05 </td>
+        <td>0.893 </td>
+    </tr>
+    <tr>
+        <td>315</td>
+        <td>19.81 </td>
+        <td>0.874 </td>
+        <td>18.88 </td>
+        <td>0.844 </td>
+    </tr>
+    <tr>
+        <td>392</td>
+        <td>24.73 </td>
+        <td>0.902 </td>
+        <td>23.66 </td>
+        <td>0.893 </td>
+    </tr>
+    <tr>
+        <td>394</td>
+        <td>25.01 </td>
+        <td>0.906 </td>
+        <td>22.87 </td>
+        <td>0.874 </td>
+    </tr>
+    <tr>
+        <td>393</td>
+        <td>23.47 </td>
+        <td>0.894 </td>
+        <td>22.27 </td>
+        <td>0.885 </td>
+    </tr>
+    <tr>
+        <td>377</td>
+        <td>23.79 </td>
+        <td>0.918 </td>
+        <td>21.94 </td>
+        <td>0.885 </td>
+    </tr>
+    <tr>
+        <td>386</td>
+        <td>25.02 </td>
+        <td>0.879 </td>
+        <td>23.70 </td>
+        <td>0.853 </td>
+    </tr>
+    <tr>
+        <td>387</td>
+        <td>22.65 </td>
+        <td>0.858 </td>
+        <td>20.97 </td>
+        <td>0.866 </td>
+    </tr>
+    <tr>
+        <td>390</td>
+        <td>23.72 </td>
+        <td>0.873 </td>
+        <td>22.65 </td>
+        <td>0.858 </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>23.87 </td>
+        <td>0.893 </td>
+        <td>22.22 </td>
+        <td>0.872 </td>
+    </tr>
+</table>
+
+The following table lists quantitative results of Deferred Neural Human Rendering.
+
+<table style="text-align: center">
+    <tr>
+        <td></td>
+        <td colspan="2">Training frames</td>
+        <td colspan="2">Unseen human poses</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>PSNR</td>
+        <td>SSIM</td>
+        <td>PSNR</td>
+        <td>SSIM</td>
+    </tr>
+    <tr>
+        <td>313</td>
+        <td>25.78 </td>
+        <td>0.929 </td>
+        <td>22.56 </td>
+        <td>0.889 </td>
+    </tr>
+    <tr>
+        <td>315</td>
+        <td>19.44 </td>
+        <td>0.869 </td>
+        <td>18.38 </td>
+        <td>0.841 </td>
+    </tr>
+    <tr>
+        <td>392</td>
+        <td>24.96 </td>
+        <td>0.905 </td>
+        <td>24.08 </td>
+        <td>0.900 </td>
+    </tr>
+    <tr>
+        <td>394</td>
+        <td>24.84 </td>
+        <td>0.903 </td>
+        <td>22.67 </td>
+        <td>0.871 </td>
+    </tr>
+    <tr>
+        <td>393</td>
+        <td>23.50 </td>
+        <td>0.896 </td>
+        <td>22.45 </td>
+        <td>0.888 </td>
+    </tr>
+    <tr>
+        <td>377</td>
+        <td>23.74 </td>
+        <td>0.917 </td>
+        <td>22.07 </td>
+        <td>0.886 </td>
+    </tr>
+    <tr>
+        <td>386</td>
+        <td>24.93 </td>
+        <td>0.877 </td>
+        <td>23.70 </td>
+        <td>0.851 </td>
+    </tr>
+    <tr>
+        <td>387</td>
+        <td>22.44 </td>
+        <td>0.888 </td>
+        <td>20.64 </td>
+        <td>0.862 </td>
+    </tr>
+    <tr>
+        <td>390</td>
+        <td>24.33 </td>
+        <td>0.881 </td>
+        <td>22.90 </td>
+        <td>0.864 </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>23.77 </td>
+        <td>0.896 </td>
+        <td>22.16 </td>
+        <td>0.872 </td>
+    </tr>
+</table>
