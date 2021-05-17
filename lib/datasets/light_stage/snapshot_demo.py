@@ -32,8 +32,10 @@ class Dataset(data.Dataset):
 
     def prepare_input(self, i, index):
         # read xyz, normal, color from the ply file
-        ply_path = os.path.join(self.data_root, 'smpl', '{}.ply'.format(i))
-        xyz, nxyz = if_nerf_dutils.get_smpl_data(ply_path)
+        vertices_path = os.path.join(self.data_root, 'vertices',
+                                     '{}.npy'.format(i))
+        xyz = np.load(vertices_path).astype(np.float32)
+        nxyz = np.zeros_like(xyz).astype(np.float32)
 
         t = self.ts[index]
         rot_ = np.array([[np.cos(t), -np.sin(t)], [np.sin(t), np.cos(t)]])

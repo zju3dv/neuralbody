@@ -39,14 +39,11 @@ class Dataset(data.Dataset):
         return msk
 
     def prepare_input(self, i):
-        # read xyz, normal, color from the ply file
-        ply_path = os.path.join(self.data_root, 'smpl', '{}.ply'.format(i))
-        ply = PlyData.read(ply_path)
-        data = ply.elements[0].data
-        xyz = np.stack([data['x'], data['y'], data['z']],
-                       axis=-1).astype(np.float32)
-        nxyz = np.stack([data['nx'], data['ny'], data['nz']],
-                        axis=-1).astype(np.float32)
+        # read xyz, normal, color from the npy file
+        vertices_path = os.path.join(self.data_root, 'vertices',
+                                     '{}.npy'.format(i))
+        xyz = np.load(vertices_path).astype(np.float32)
+        nxyz = np.zeros_like(xyz).astype(np.float32)
 
         min_xyz = np.min(xyz, axis=0)
         min_xyz[1] -= 0.06

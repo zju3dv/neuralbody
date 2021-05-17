@@ -31,8 +31,10 @@ class Dataset(data.Dataset):
 
     def prepare_input(self, i):
         # read xyz, normal, color from the ply file
-        ply_path = os.path.join(self.data_root, 'smpl', '{}.ply'.format(i))
-        xyz, nxyz = if_nerf_dutils.get_smpl_data(ply_path)
+        vertices_path = os.path.join(self.data_root, 'vertices',
+                                     '{}.npy'.format(i))
+        xyz = np.load(vertices_path).astype(np.float32)
+        nxyz = np.zeros_like(xyz).astype(np.float32)
 
         # obtain the original bounds for point sampling
         min_xyz = np.min(xyz, axis=0)

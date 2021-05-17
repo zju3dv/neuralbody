@@ -30,7 +30,7 @@ class Dataset(data.Dataset):
         self.nrays = cfg.N_rand
 
     def prepare_input(self, i):
-        # read xyz, normal, color from the ply file
+        # read xyz, normal, color from the npy file
         vertices_path = os.path.join(self.data_root, 'vertices',
                                      '{}.npy'.format(i))
         xyz = np.load(vertices_path).astype(np.float32)
