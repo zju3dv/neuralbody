@@ -52,9 +52,10 @@ class Evaluator:
         H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
         mask_at_box = mask_at_box.reshape(H, W)
         # convert the pixels into an image
-        img_pred = np.zeros((H, W, 3))
+        white_bkgd = int(cfg.white_bkgd)
+        img_pred = np.zeros((H, W, 3)) + white_bkgd
         img_pred[mask_at_box] = rgb_pred
-        img_gt = np.zeros((H, W, 3))
+        img_gt = np.zeros((H, W, 3)) + white_bkgd
         img_gt[mask_at_box] = rgb_gt
 
         if cfg.eval_whole_img:
