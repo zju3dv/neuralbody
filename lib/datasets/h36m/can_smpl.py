@@ -79,9 +79,6 @@ class Dataset(data.Dataset):
         Th = params['Th'].astype(np.float32)
         xyz = np.dot(xyz - Th, R)
 
-        # transformation augmentation
-        xyz, center, rot, trans = if_nerf_dutils.transform_can_smpl(xyz)
-
         # obtain the bounds for coord construction
         min_xyz = np.min(xyz, axis=0)
         max_xyz = np.max(xyz, axis=0)
@@ -105,7 +102,7 @@ class Dataset(data.Dataset):
         x = 32
         out_sh = (out_sh | (x - 1)) + 1
 
-        return feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans
+        return feature, coord, out_sh, can_bounds, bounds, Rh, Th
 
     def __getitem__(self, index):
         img_path = os.path.join(self.data_root, self.ims[index])
@@ -135,7 +132,7 @@ class Dataset(data.Dataset):
         K[:2] = K[:2] * cfg.ratio
 
         i = int(os.path.basename(img_path)[:-4])
-        feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans = self.prepare_input(
+        feature, coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
             i)
 
         rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_h36m(
@@ -161,9 +158,6 @@ class Dataset(data.Dataset):
             'bounds': bounds,
             'R': R,
             'Th': Th,
-            'center': center,
-            'rot': rot,
-            'trans': trans,
             'i': i,
             'cam_ind': cam_ind
         }

@@ -36,21 +36,6 @@ class Renderer:
         pts = pts.view(*sh)
         return pts
 
-    def transform_sampling_points(self, pts, batch):
-        if not self.net.training:
-            return pts
-        center = batch['center'][:, None, None]
-        pts = pts - center
-        rot = batch['rot']
-        pts_ = pts[..., [0, 2]].clone()
-        sh = pts_.shape
-        pts_ = torch.matmul(pts_.view(sh[0], -1, sh[3]), rot.permute(0, 2, 1))
-        pts[..., [0, 2]] = pts_.view(*sh)
-        pts = pts + center
-        trans = batch['trans'][:, None, None]
-        pts = pts + trans
-        return pts
-
     def prepare_sp_input(self, batch):
         # feature, coordinate, shape, batch size
         sp_input = {}
@@ -122,7 +107,6 @@ class Renderer:
         # light intensity varies with 3D location
         light_pts = embedder.xyz_embedder(pts)
         pts = self.pts_to_can_pts(pts, batch)
-        # pts = self.transform_sampling_points(pts, batch)
 
         ray_d0 = batch['ray_d']
         viewdir = ray_d0 / torch.norm(ray_d0, dim=2, keepdim=True)

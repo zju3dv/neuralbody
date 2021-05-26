@@ -87,9 +87,8 @@ training_view: [0, 1, 2, 3]
 intv: 6
 begin_i: 1000
 ni: 300
-smpl: 'smpl'
-vertices: 'vertices'
-params: 'params'
+vertices: 'new_vertices'
+params: 'new_params'
 big_box: True
 
 voxel_size: [0.005, 0.005, 0.005]  # dhw
