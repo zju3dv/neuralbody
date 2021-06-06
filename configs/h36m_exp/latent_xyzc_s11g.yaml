@@ -81,7 +81,8 @@ white_bkgd: False
 render_views: 50
 
 # data options
-res: 256
+H: 1002
+W: 1000
 ratio: 1.
 training_view: [0, 1, 2, 3]
 intv: 6
