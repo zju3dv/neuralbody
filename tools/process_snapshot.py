@@ -94,7 +94,6 @@ def extract_mask(masks, mask_dir):
 data_root = 'data/people_snapshot'
 videos = ['female-3-casual']
 
-# if you do not have these smpl models, you could download them from https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Eb_JIyA74O1Cnfhvn1ddrG4BC9TMK31022TykVxGdRenUQ?e=JU8pPt
 model_paths = [
     'basicModel_f_lbs_10_207_0_v1.0.0.pkl',
     'basicmodel_m_lbs_10_207_0_v1.0.0.pkl'
