@@ -13,7 +13,7 @@ from lib.utils import snapshot_data_utils as snapshot_dutils
 
 
 class Dataset(data.Dataset):
-    def __init__(self, data_root, split):
+    def __init__(self, data_root, human, ann_file, split):
         super(Dataset, self).__init__()
 
         self.data_root = data_root

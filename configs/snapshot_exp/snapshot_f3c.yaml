@@ -1,0 +1,118 @@
+task: 'if_nerf'
+gpus: [0]
+
+train_dataset_module: 'lib.datasets.light_stage.snapshot'
+train_dataset_path: 'lib/datasets/light_stage/snapshot.py'
+test_dataset_module: 'lib.datasets.light_stage.snapshot'
+test_dataset_path: 'lib/datasets/light_stage/snapshot.py'
+
+network_module: 'lib.networks.latent_xyzc'
+network_path: 'lib/networks/latent_xyzc.py'
+renderer_module: 'lib.networks.renderer.if_clight_renderer'
+renderer_path: 'lib/networks/renderer/if_clight_renderer.py'
+
+trainer_module: 'lib.train.trainers.if_nerf_clight'
+trainer_path: 'lib/train/trainers/if_nerf_clight.py'
+
+evaluator_module: 'lib.evaluators.if_nerf'
+evaluator_path: 'lib/evaluators/if_nerf.py'
+
+visualizer_module: 'lib.visualizers.if_nerf'
+visualizer_path: 'lib/visualizers/if_nerf.py'
+
+train:
+    dataset: Female_3_casual_Train
+    batch_size: 1
+    collator: ''
+    lr: 5e-4
+    weight_decay: 0
+    epoch: 400
+    scheduler:
+        type: 'exponential'
+        gamma: 0.1
+        decay_epochs: 1000
+    num_workers: 16
+
+test:
+    dataset: Female_3_casual_Test
+    batch_size: 1
+    collator: ''
+
+ep_iter: 500
+save_ep: 100
+eval_ep: 1000
+
+# rendering options
+i_embed: 0
+xyz_res: 10
+view_res: 4
+raw_noise_std: 0
+
+N_samples: 64
+N_importance: 128
+N_rand: 1024
+
+perturb: 1
+white_bkgd: False
+
+num_render_views: 50
+
+# data options
+ratio: 1.
+num_train_frame: 230
+
+voxel_size: [0.005, 0.005, 0.005]  # dhw
+
+# record options
+log_interval: 1
+
+
+novel_view_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.multi_view_demo_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/multi_view_demo_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.multi_view_demo_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/multi_view_demo_dataset.py'
+
+    renderer_module: 'lib.networks.renderer.if_clight_renderer_mmsk'
+    renderer_path: 'lib/networks/renderer/if_clight_renderer_mmsk.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_demo'
+    visualizer_path: 'lib/visualizers/if_nerf_demo.py'
+
+    test:
+        sampler: ''
+
+novel_pose_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.multi_view_perform_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/multi_view_perform_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.multi_view_perform_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/multi_view_perform_dataset.py'
+
+    renderer_module: 'lib.networks.renderer.if_clight_renderer_mmsk'
+    renderer_path: 'lib/networks/renderer/if_clight_renderer_mmsk.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_perform'
+    visualizer_path: 'lib/visualizers/if_nerf_perform.py'
+
+    test:
+        sampler: ''
+
+mesh_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.multi_view_mesh_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/multi_view_mesh_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.multi_view_mesh_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/multi_view_mesh_dataset.py'
+
+    network_module: 'lib.networks.latent_xyzc'
+    network_path: 'lib/networks/latent_xyzc.py'
+    renderer_module: 'lib.networks.renderer.if_mesh_renderer'
+    renderer_path: 'lib/networks/renderer/if_mesh_renderer.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_mesh'
+    visualizer_path: 'lib/visualizers/if_nerf_mesh.py'
+
+    mesh_th: 5
+
+    test:
+        sampler: 'FrameSampler'
+        frame_sampler_interval: 10

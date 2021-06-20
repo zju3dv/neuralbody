@@ -29,6 +29,6 @@ class Visualizer:
 
         result_dir = os.path.join(cfg.result_dir, 'mesh')
         os.system('mkdir -p {}'.format(result_dir))
-        i = batch['i'][0].item()
-        result_path = os.path.join(result_dir, '{}.ply'.format(i))
+        i = batch['frame_index'].item()
+        result_path = os.path.join(result_dir, '{:04d}.ply'.format(i))
         mesh.export(result_path)

@@ -87,7 +87,7 @@ def gen_path(RT, center=None):
     rads = np.array(list(rads) + [1.])
 
     render_w2c = []
-    for theta in np.linspace(0., 2 * np.pi, cfg.render_views + 1)[:-1]:
+    for theta in np.linspace(0., 2 * np.pi, cfg.num_render_views + 1)[:-1]:
         # camera position
         cam_pos = np.array([0, np.sin(theta), np.cos(theta), 1] * rads)
         cam_pos_world = np.dot(c2w[:3, :4], cam_pos)

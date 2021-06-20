@@ -1,0 +1,23 @@
+task: 'if_nerf'
+gpus: [0]
+
+parent_cfg: 'configs/zju_mocap_exp/latent_xyzc_313.yaml'
+
+human: 390
+
+train_dataset:
+    data_root: 'data/zju_mocap/CoreView_390'
+    human: 'CoreView_390'
+    ann_file: 'data/zju_mocap/CoreView_390/annots.npy'
+    split: 'train'
+
+test_dataset:
+    data_root: 'data/zju_mocap/CoreView_390'
+    human: 'CoreView_390'
+    ann_file: 'data/zju_mocap/CoreView_390/annots.npy'
+    split: 'test'
+
+# data options
+num_train_frame: 300
+begin_ith_frame: 700
+num_novel_pose_frame: 700

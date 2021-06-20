@@ -1,4 +1,5 @@
 import open3d as o3d
+from . import yacs
 from .yacs import CfgNode as CN
 import argparse
 import os
@@ -18,11 +19,11 @@ cfg.distributed = False
 cfg.human = 313
 cfg.training_view = [0, 6, 12, 18]
 cfg.intv = 1
-cfg.begin_i = 0  # the first smpl
-cfg.ni = 1  # number of smpls
-cfg.render_ni = -1  # number of frames to render
-cfg.i = 1  # the i-th smpl
-cfg.i_intv = 1
+cfg.begin_ith_frame = 0  # the first smpl
+cfg.num_train_frame = 1  # number of smpls
+cfg.num_render_frame = -1  # number of frames to render
+cfg.ith_frame = 0  # the i-th smpl
+cfg.frame_interval = 1
 cfg.nv = 6890  # number of vertices
 cfg.smpl = 'smpl_4views_5e-4'
 cfg.vertices = 'vertices'
@@ -96,6 +97,7 @@ cfg.test.epoch = -1
 cfg.test.sampler = 'default'
 cfg.test.batch_sampler = 'default'
 cfg.test.sampler_meta = CN({'min_hw': [480, 640], 'max_hw': [480, 640], 'strategy': 'origin'})
+cfg.test.frame_sampler_interval = 30
 
 # trained model
 cfg.trained_model_dir = 'data/trained_model'
@@ -112,6 +114,9 @@ cfg.result_dir = 'data/result'
 cfg.skip_eval = False
 cfg.test_novel_pose = False
 cfg.novel_pose_ni = 100
+cfg.vis_novel_pose = False
+cfg.vis_novel_view = False
+cfg.vis_mesh = False
 cfg.eval_whole_img = False
 
 cfg.fix_random = False
@@ -137,8 +142,28 @@ def parse_cfg(cfg, args):
 
 
 def make_cfg(args):
-    cfg.merge_from_file(args.cfg_file)
+    with open(args.cfg_file, 'r') as f:
+        current_cfg = yacs.load_cfg(f)
+
+    if 'parent_cfg' in current_cfg.keys():
+        with open(current_cfg.parent_cfg, 'r') as f:
+            parent_cfg = yacs.load_cfg(f)
+        cfg.merge_from_other_cfg(parent_cfg)
+
+    cfg.merge_from_other_cfg(current_cfg)
     cfg.merge_from_list(args.opts)
+
+    if cfg.vis_novel_pose:
+        cfg.merge_from_other_cfg(cfg.novel_pose_cfg)
+
+    if cfg.vis_novel_view:
+        cfg.merge_from_other_cfg(cfg.novel_view_cfg)
+
+    if cfg.vis_mesh:
+        cfg.merge_from_other_cfg(cfg.mesh_cfg)
+
+    cfg.merge_from_list(args.opts)
+
     parse_cfg(cfg, args)
     # pprint.pprint(cfg)
     return cfg

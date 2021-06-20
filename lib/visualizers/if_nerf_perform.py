@@ -9,7 +9,8 @@ from termcolor import colored
 class Visualizer:
     def __init__(self):
         data_dir = 'data/perform/{}'.format(cfg.exp_name)
-        print(colored('the results are saved at {}'.format(data_dir), 'yellow'))
+        print(colored('the results are saved at {}'.format(data_dir),
+                      'yellow'))
 
     def visualize(self, output, batch):
         rgb_pred = output['rgb_map'][0].detach().cpu().numpy()
@@ -24,8 +25,12 @@ class Visualizer:
         img_pred[mask_at_box] = rgb_pred
         img_pred = img_pred[..., [2, 1, 0]]
 
-        frame_root = 'data/perform/{}/{}'.format(cfg.exp_name,
-                                                 0)
+        frame_root = 'data/perform/{}/{}'.format(cfg.exp_name, 0)
         os.system('mkdir -p {}'.format(frame_root))
-        i = batch['index'].item()
-        cv2.imwrite(os.path.join(frame_root, '%d.jpg' % i), img_pred * 255)
+        frame_index = batch['frame_index'].item()
+        view_index = batch['view_index'].item()
+        cv2.imwrite(
+            os.path.join(
+                frame_root,
+                'frame{:04d}_view{:04d}.png'.format(frame_index, view_index)),
+            img_pred * 255)

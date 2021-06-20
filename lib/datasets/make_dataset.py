@@ -1,6 +1,5 @@
 from .transforms import make_transforms
 from . import samplers
-from .dataset_catalog import DatasetCatalog
 import torch
 import torch.utils.data
 import imp
@@ -15,17 +14,17 @@ def _dataset_factory(is_train):
     if is_train:
         module = cfg.train_dataset_module
         path = cfg.train_dataset_path
+        args = cfg.train_dataset
     else:
         module = cfg.test_dataset_module
         path = cfg.test_dataset_path
-    dataset = imp.load_source(module, path).Dataset
+        args = cfg.test_dataset
+    dataset = imp.load_source(module, path).Dataset(**args)
     return dataset
 
 
 def make_dataset(cfg, dataset_name, transforms, is_train=True):
-    args = DatasetCatalog.get(dataset_name)
     dataset = _dataset_factory(is_train)
-    dataset = dataset(**args)
     return dataset
 
 
