@@ -17,14 +17,14 @@ class Dataset(data.Dataset):
         super(Dataset, self).__init__()
 
         self.data_root = data_root
+        self.human = human
         self.split = split
 
         camera_path = os.path.join(self.data_root, 'camera.pkl')
         self.cam = snapshot_dutils.get_camera(camera_path)
-        self.begin_i = cfg.begin_i
-        self.ni = cfg.ni
+        self.num_train_frame = cfg.num_train_frame
 
-        params_path = os.path.join(data_root, 'params.npy')
+        params_path = ann_file
         self.params = np.load(params_path, allow_pickle=True).item()
 
         self.nrays = cfg.N_rand
@@ -49,19 +49,12 @@ class Dataset(data.Dataset):
         Th = self.params['trans'][i].astype(np.float32)
         xyz = np.dot(xyz - Th, R)
 
-        # transformation augmentation
-        xyz, center, rot, trans = if_nerf_dutils.transform_can_smpl(xyz)
-
         # obtain the bounds for coord construction
         min_xyz = np.min(xyz, axis=0)
         max_xyz = np.max(xyz, axis=0)
         min_xyz[1] -= 0.1
         max_xyz[1] += 0.1
         bounds = np.stack([min_xyz, max_xyz], axis=0)
-
-        cxyz = xyz.astype(np.float32)
-        nxyz = nxyz.astype(np.float32)
-        feature = np.concatenate([cxyz, nxyz], axis=1).astype(np.float32)
 
         # construct the coordinate
         dhw = xyz[:, [2, 1, 0]]
@@ -75,7 +68,7 @@ class Dataset(data.Dataset):
         x = 32
         out_sh = (out_sh | (x - 1)) + 1
 
-        return feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans
+        return coord, out_sh, can_bounds, bounds, Rh, Th
 
     def __getitem__(self, index):
         img_path = os.path.join(self.data_root, 'image',
@@ -85,6 +78,7 @@ class Dataset(data.Dataset):
         msk = imageio.imread(msk_path)
 
         frame_index = index
+        latent_index = index
 
         K = self.cam['K']
         D = self.cam['D']
@@ -95,8 +89,8 @@ class Dataset(data.Dataset):
         T = self.cam['T'][:, None]
         RT = np.concatenate([R, T], axis=1).astype(np.float32)
 
-        feature, coord, out_sh, can_bounds, bounds, Rh, Th, center, rot, trans = self.prepare_input(
-            index)
+        coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
+            frame_index)
 
         # reduce the image resolution by ratio
         H, W = int(img.shape[0] * cfg.ratio), int(img.shape[1] * cfg.ratio)
@@ -113,7 +107,6 @@ class Dataset(data.Dataset):
             img, msk, K, R, T, can_bounds, self.nrays, self.split)
 
         ret = {
-            'feature': feature,
             'coord': coord,
             'out_sh': out_sh,
             'rgb': rgb,
@@ -130,11 +123,9 @@ class Dataset(data.Dataset):
             'bounds': bounds,
             'R': R,
             'Th': Th,
-            'center': center,
-            'rot': rot,
-            'trans': trans,
-            'i': index,
-            'index': frame_index
+            'latent_index': latent_index,
+            'frame_index': frame_index,
+            'view_index': 0
         }
         ret.update(meta)
 
@@ -147,4 +138,4 @@ class Dataset(data.Dataset):
         return ret
 
     def __len__(self):
-        return self.ni
+        return self.num_train_frame

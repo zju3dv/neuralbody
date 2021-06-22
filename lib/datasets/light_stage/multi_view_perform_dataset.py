@@ -88,11 +88,6 @@ class Dataset(data.Dataset):
             max_xyz[2] += 0.05
         bounds = np.stack([min_xyz, max_xyz], axis=0)
 
-        # move the point cloud to the canonical frame, which eliminates the influence of translation
-        cxyz = xyz.astype(np.float32)
-        nxyz = nxyz.astype(np.float32)
-        feature = np.concatenate([cxyz, nxyz], axis=1).astype(np.float32)
-
         # construct the coordinate
         dhw = xyz[:, [2, 1, 0]]
         min_dhw = min_xyz[[2, 1, 0]]
@@ -105,7 +100,7 @@ class Dataset(data.Dataset):
         x = 32
         out_sh = (out_sh | (x - 1)) + 1
 
-        return feature, coord, out_sh, can_bounds, bounds, Rh, Th
+        return coord, out_sh, can_bounds, bounds, Rh, Th
 
     def get_mask(self, i):
         ims = self.ims[i]
@@ -134,7 +129,7 @@ class Dataset(data.Dataset):
     def __getitem__(self, index):
         frame_index = index + cfg.begin_ith_frame
         latent_index = index
-        feature, coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
+        coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
             frame_index)
 
         msks = self.get_mask(index)
@@ -154,7 +149,6 @@ class Dataset(data.Dataset):
             self.render_w2c[cam_ind], K, can_bounds)
 
         ret = {
-            'feature': feature,
             'coord': coord,
             'out_sh': out_sh,
             'ray_o': ray_o,

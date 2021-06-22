@@ -103,7 +103,7 @@ cam.far = 10
 
 data_root = 'data/result/if_nerf/{}/mesh'.format(
     args.exp_name)
-obj_path = os.path.join(data_root, '{}.ply'.format(args.mesh_ind))
+obj_path = os.path.join(data_root, '{:04d}.ply'.format(args.mesh_ind))
 
 mesh_render_dir = os.path.join(data_root, 'mesh{}_render'.format(args.mesh_ind))
 
