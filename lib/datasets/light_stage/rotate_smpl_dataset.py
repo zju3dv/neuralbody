@@ -30,10 +30,12 @@ class Dataset(data.Dataset):
         self.nt = len(self.ts)
 
         i = 0
-        i = i + cfg.begin_i
+        i = i + cfg.begin_ith_frame
+        ni = cfg.num_train_frame
+        i_intv = cfg.frame_interval
         self.ims = np.array([
             np.array(ims_data['ims'])[cfg.training_view]
-            for ims_data in annots['ims'][i:i + cfg.ni * cfg.i_intv]
+            for ims_data in annots['ims'][i:i + ni * i_intv]
         ])
 
         self.K = K[0]
@@ -53,13 +55,9 @@ class Dataset(data.Dataset):
 
         self.nrays = cfg.N_rand
 
-    def get_nearest_cam(self, K, RT):
-        center_rayd = render_utils.get_center_rayd(K, RT)
-        sim = [np.dot(center_rayd, cam_rayd) for cam_rayd in self.center_rayd]
-        return self.RT[np.argmax(sim)]
-
     def prepare_input(self, i, index):
-        i = i + cfg.begin_i
+        if self.human in ['CoreView_313', 'CoreView_315']:
+            i = i + 1
 
         # read xyz, normal, color from the ply file
         vertices_path = os.path.join(self.data_root, cfg.vertices,
@@ -112,11 +110,6 @@ class Dataset(data.Dataset):
             max_xyz[2] += 0.05
         bounds = np.stack([min_xyz, max_xyz], axis=0)
 
-        # move the point cloud to the canonical frame, which eliminates the influence of translation
-        cxyz = xyz.astype(np.float32)
-        nxyz = nxyz.astype(np.float32)
-        feature = np.concatenate([cxyz, nxyz], axis=1).astype(np.float32)
-
         # construct the coordinate
         dhw = xyz[:, [2, 1, 0]]
         min_dhw = min_xyz[[2, 1, 0]]
@@ -129,7 +122,7 @@ class Dataset(data.Dataset):
         x = 32
         out_sh = (out_sh | (x - 1)) + 1
 
-        return feature, coord, out_sh, can_bounds, bounds, Rh, Th
+        return coord, out_sh, can_bounds, bounds, Rh, Th
 
     def get_mask(self, i):
         ims = self.ims[i]
@@ -162,57 +155,41 @@ class Dataset(data.Dataset):
         return msks
 
     def __getitem__(self, index):
-        i = cfg.i
-        feature, coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
-            i, index)
+        i = cfg.ith_frame
+        latent_index = i
+        frame_index = i + cfg.begin_ith_frame
+        view_index = index
 
-        if self.human in ['CoreView_313', 'CoreView_315']:
-            i = cfg.i - 1
-        msks = self.get_mask(i)
+        coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
+            frame_index, view_index)
 
         # reduce the image resolution by ratio
         H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
-        msks = [
-            cv2.resize(msk, (W, H), interpolation=cv2.INTER_NEAREST)
-            for msk in msks
-        ]
-        msks = np.array(msks)
         K = self.K
 
         ray_o, ray_d, near, far, center, scale, mask_at_box = render_utils.image_rays(
             self.render_w2c[0], K, can_bounds)
-        # view_RT = self.get_nearest_cam(K, self.render_w2c[index])
-        # ray_d0 = render_utils.get_image_rays0(view_RT,
-        #                                       self.render_w2c[index], K,
-        #                                       can_bounds)
 
         ret = {
-            'feature': feature,
             'coord': coord,
             'out_sh': out_sh,
             'ray_o': ray_o,
             'ray_d': ray_d,
-            # 'ray_d0': ray_d0,
             'near': near,
             'far': far,
             'mask_at_box': mask_at_box
         }
 
         R = cv2.Rodrigues(Rh)[0].astype(np.float32)
-        ind = i
-        i = int(np.round(i / cfg.i_intv))
-        i = min(i, cfg.ni - 1)
+        latent_index = min(latent_index, cfg.num_train_frame - 1)
         meta = {
             'bounds': bounds,
             'R': R,
             'Th': Th,
-            'i': i,
-            'index': index,
-            'ind': ind
+            'latent_index': latent_index,
+            'frame_index': frame_index,
+            'view_index': view_index
         }
-        ret.update(meta)
-
-        meta = {'msks': msks, 'Ks': self.Ks, 'RT': self.RT}
         ret.update(meta)
 
         return ret

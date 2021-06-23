@@ -44,53 +44,37 @@ Example camera files can be found in [camera_params](camera_params).
     │   │   │   ├── 00000.png
     │   │   │   ├── ...
     ```
-4. Add items in `lib/datasets/dataset_catalog.py`. For example:
-    ```
-    'CustomHumanTrain': {
-        'data_root': 'path/to/custom_data',
-        'human': 'custom',
-        'ann_file': 'path/to/custom_data/annots.npy',
-        'split': 'train'
-    },
-    'CustomHumanTest': {
-        'data_root': 'path/to/custom_data',
-        'human': 'custom',
-        'ann_file': 'path/to/custom_data/annots.npy',
-        'split': 'test'
-    }
-    ```
-5. Use `configs/custom.yaml` for training:
+4. Use `configs/multi_view_custom.yaml` or `configs/monocular_custom.yaml` for training. **Note that you need to revise the `train_dataset` and `test_dataset` in the yaml file.**
     ```
     # train from scratch
-    python train_net.py --cfg_file configs/custom.yaml exp_name <exp_name> resume False
+    python train_net.py --cfg_file configs/multi_view_custom.yaml exp_name <exp_name> resume False
     # resume training
-    python train_net.py --cfg_file configs/custom.yaml exp_name <exp_name> resume True
+    python train_net.py --cfg_file configs/multi_view_custom.yaml exp_name <exp_name> resume True
     ```
-    Revise the `ni` and `training_view` in `custom.yaml` according to your data. Or you could specify it in the command line:
+    Revise the `num_train_frame` and `training_view` in `custom.yaml` according to your data. Or you could specify it in the command line:
     ```
-    python train_net.py --cfg_file configs/custom.yaml exp_name <exp_name> ni 1000 training_view "0, 1, 2, 3" resume False
+    python train_net.py --cfg_file configs/custom.yaml exp_name <exp_name> num_train_frame 1000 training_view "0, 1, 2, 3" resume False
     ```
 6. Visualization. Please refer to [Visualization on ZJU-MoCap](https://github.com/zju3dv/neuralbody#visualization-on-zju-mocap) as an example.
-    * Visualize novel views of single frame. **Note that models with monocular videos can only be visualized with `custom_rotate_demo.yaml`.**
+    * Visualize novel views of single frame.
     ```
-    python run.py --type visualize --cfg_file configs/custom_demo.yaml exp_name <exp_name> render_views 100
-    python run.py --type visualize --cfg_file configs/custom_rotate_demo.yaml exp_name <exp_name>
+    python run.py --type visualize --cfg_file configs/multi_view_custom.yaml exp_name <exp_name> vis_novel_view True num_render_views 100
     ```
 
     * Visualize views of dynamic humans with fixed camera
     ```
-    python run.py --type visualize --cfg_file configs/custom_perform.yaml exp_name <exp_name> render_views 1
+    python run.py --type visualize --cfg_file configs/multi_view_custom.yaml exp_name <exp_name> vis_novel_pose True num_render_frame 1000 num_render_views 1
     ```
 
     * Visualize views of dynamic humans with rotated camera
     ```
-    python run.py --type visualize --cfg_file configs/custom_perform.yaml exp_name <exp_name> render_views 100
+    python run.py --type visualize --cfg_file configs/multi_view_custom.yaml exp_name <exp_name> vis_novel_pose True num_render_frame 1000
     ```
 
     * Visualize mesh. `mesh_th` is the iso-surface threshold of Marching Cube Algorithm.
     ```
     # generate meshes
-    python run.py --type visualize --cfg_file configs/custom_mesh.yaml exp_name <exp_name> train.num_workers 0 mesh_th 10
+    python run.py --type visualize --cfg_file configs/multi_view_custom.yaml exp_name <exp_name> vis_mesh True mesh_th 10
     # visualize a specific mesh
     python tools/render_mesh.py --exp_name <exp_name> --dataset zju_mocap --mesh_ind 0
     ```

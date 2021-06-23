@@ -116,6 +116,7 @@ cfg.test_novel_pose = False
 cfg.novel_pose_ni = 100
 cfg.vis_novel_pose = False
 cfg.vis_novel_view = False
+cfg.vis_rotate_smpl = False
 cfg.vis_mesh = False
 cfg.eval_whole_img = False
 
@@ -158,6 +159,9 @@ def make_cfg(args):
 
     if cfg.vis_novel_view:
         cfg.merge_from_other_cfg(cfg.novel_view_cfg)
+
+    if cfg.vis_rotate_smpl:
+        cfg.merge_from_other_cfg(cfg.rotate_smpl_cfg)
 
     if cfg.vis_mesh:
         cfg.merge_from_other_cfg(cfg.mesh_cfg)

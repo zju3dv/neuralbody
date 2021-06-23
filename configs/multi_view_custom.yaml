@@ -1,0 +1,25 @@
+task: 'if_nerf'
+gpus: [0]
+
+parent_cfg: 'configs/zju_mocap_exp/latent_xyzc_313.yaml'
+
+train_dataset:
+    data_root: 'path/to/custom_data',
+    human: 'custom',
+    ann_file: 'path/to/custom_data/annots.npy',
+    split: 'train'
+
+test_dataset:
+    data_root: 'path/to/custom_data',
+    human: 'custom',
+    ann_file: 'path/to/custom_data/annots.npy',
+    split: 'test'
+
+# data options
+ratio: 1.
+training_view: [0, 6, 12, 18]
+num_train_frame: 300
+smpl: 'smpl'
+vertices: 'vertices'
+params: 'params'
+big_box: True

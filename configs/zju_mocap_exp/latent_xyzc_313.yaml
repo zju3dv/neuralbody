@@ -101,6 +101,21 @@ novel_view_cfg:
     test:
         sampler: ''
 
+rotate_smpl_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.rotate_smpl_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/rotate_smpl_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.rotate_smpl_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/rotate_smpl_dataset.py'
+
+    renderer_module: 'lib.networks.renderer.if_clight_renderer'
+    renderer_path: 'lib/networks/renderer/if_clight_renderer.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_demo'
+    visualizer_path: 'lib/visualizers/if_nerf_demo.py'
+
+    test:
+        sampler: ''
+
 novel_pose_cfg:
     train_dataset_module: 'lib.datasets.light_stage.multi_view_perform_dataset'
     train_dataset_path: 'lib/datasets/light_stage/multi_view_perform_dataset.py'
