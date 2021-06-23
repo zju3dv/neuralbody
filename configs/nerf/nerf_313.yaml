@@ -1,10 +1,10 @@
 task: 'if_nerf'
 gpus: [0]
 
-train_dataset_module: 'lib.datasets.light_stage.can_smpl'
-train_dataset_path: 'lib/datasets/light_stage/can_smpl.py'
-test_dataset_module: 'lib.datasets.light_stage.can_smpl'
-test_dataset_path: 'lib/datasets/light_stage/can_smpl.py'
+train_dataset_module: 'lib.datasets.light_stage.multi_view_dataset'
+train_dataset_path: 'lib/datasets/light_stage/multi_view_dataset.py'
+test_dataset_module: 'lib.datasets.light_stage.multi_view_dataset'
+test_dataset_path: 'lib/datasets/light_stage/multi_view_dataset.py'
 
 network_module: 'lib.networks.nerf'
 network_path: 'lib/networks/nerf.py'
@@ -22,8 +22,19 @@ visualizer_path: 'lib/visualizers/if_nerf.py'
 
 human: 313
 
+train_dataset:
+    data_root: 'data/zju_mocap/CoreView_313'
+    human: 'CoreView_313'
+    ann_file: 'data/zju_mocap/CoreView_313/annots.npy'
+    split: 'train'
+
+test_dataset:
+    data_root: 'data/zju_mocap/CoreView_313'
+    human: 'CoreView_313'
+    ann_file: 'data/zju_mocap/CoreView_313/annots.npy'
+    split: 'test'
+
 train:
-    dataset: Human313_0001_Train
     batch_size: 1
     collator: ''
     lr: 5e-4
@@ -36,7 +47,6 @@ train:
     num_workers: 16
 
 test:
-    dataset: Human313_0001_Test
     sampler: 'FrameSampler'
     batch_size: 1
     collator: ''
@@ -55,12 +65,6 @@ chunk: 32768
 
 no_batching: True
 
-precrop_iters: 500
-precrop_frac: 0.5
-
-# network options
-point_feature: 6
-
 # rendering options
 use_viewdirs: True
 i_embed: 0
@@ -73,19 +77,14 @@ N_samples: 64
 N_importance: 128
 N_rand: 1024
 
-near: 1
-far: 3
-
 perturb: 1
 white_bkgd: False
 
-render_views: 50
+num_render_views: 50
 
 # data options
-res: 256
 ratio: 0.5
-intv: 6
-ni: 1
+num_train_frame: 1
 smpl: 'smpl'
 params: 'params'
 
@@ -93,3 +92,54 @@ voxel_size: [0.005, 0.005, 0.005]  # dhw
 
 # record options
 log_interval: 1
+
+
+novel_view_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.multi_view_demo_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/multi_view_demo_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.multi_view_demo_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/multi_view_demo_dataset.py'
+
+    renderer_module: 'lib.networks.renderer.volume_renderer'
+    renderer_path: 'lib/networks/renderer/volume_renderer.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_demo'
+    visualizer_path: 'lib/visualizers/if_nerf_demo.py'
+
+    test:
+        sampler: ''
+
+novel_pose_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.multi_view_perform_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/multi_view_perform_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.multi_view_perform_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/multi_view_perform_dataset.py'
+
+    renderer_module: 'lib.networks.renderer.volume_renderer'
+    renderer_path: 'lib/networks/renderer/volume_renderer.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_perform'
+    visualizer_path: 'lib/visualizers/if_nerf_perform.py'
+
+    test:
+        sampler: ''
+
+mesh_cfg:
+    train_dataset_module: 'lib.datasets.light_stage.multi_view_mesh_dataset'
+    train_dataset_path: 'lib/datasets/light_stage/multi_view_mesh_dataset.py'
+    test_dataset_module: 'lib.datasets.light_stage.multi_view_mesh_dataset'
+    test_dataset_path: 'lib/datasets/light_stage/multi_view_mesh_dataset.py'
+
+    network_module: 'lib.networks.latent_xyzc'
+    network_path: 'lib/networks/latent_xyzc.py'
+    renderer_module: 'lib.networks.renderer.volume_mesh_renderer'
+    renderer_path: 'lib/networks/renderer/volume_mesh_renderer.py'
+
+    visualizer_module: 'lib.visualizers.if_nerf_mesh'
+    visualizer_path: 'lib/visualizers/if_nerf_mesh.py'
+
+    mesh_th: 5
+
+    test:
+        sampler: 'FrameSampler'
+        frame_sampler_interval: 1

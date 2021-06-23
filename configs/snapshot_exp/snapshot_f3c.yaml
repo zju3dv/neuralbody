@@ -131,4 +131,4 @@ mesh_cfg:
 
     test:
         sampler: 'FrameSampler'
-        frame_sampler_interval: 10
+        frame_sampler_interval: 1

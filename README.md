@@ -50,14 +50,14 @@ Take the visualization on `female-3-casual` as an example. The command lines for
 2. Visualization:
     * Visualize novel views of single frame
     ```
-    python run.py --type visualize --cfg_file configs/snapshot_f3c_demo.yaml exp_name female3c render_views 144
+    python run.py --type visualize --cfg_file configs/snapshot_exp/snapshot_f3c.yaml exp_name female3c vis_novel_view True num_render_views 144
     ```
 
     ![monocular](https://zju3dv.github.io/neuralbody/images/monocular_render.gif)
 
     * Visualize views of dynamic humans with fixed camera
     ```
-    python run.py --type visualize --cfg_file configs/snapshot_f3c_perform.yaml exp_name female3c
+    python run.py --type visualize --cfg_file configs/snapshot_exp/snapshot_f3c.yaml exp_name female3c vis_novel_pose True
     ```
 
     ![monocular](https://zju3dv.github.io/neuralbody/images/monocular_perform.gif)
@@ -65,7 +65,7 @@ Take the visualization on `female-3-casual` as an example. The command lines for
     * Visualize mesh
     ```
     # generate meshes
-    python run.py --type visualize --cfg_file configs/snapshot_f3c_mesh.yaml exp_name female3c train.num_workers 0
+    python run.py --type visualize --cfg_file configs/snapshot_exp/snapshot_f3c.yaml exp_name female3c vis_mesh True train.num_workers 0
     # visualize a specific mesh
     python tools/render_mesh.py --exp_name female3c --dataset people_snapshot --mesh_ind 226
     ```
@@ -81,14 +81,14 @@ Take the training on `female-3-casual` as an example. The command lines for trai
 1. Train:
     ```
     # training
-    python train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False
+    python train_net.py --cfg_file configs/snapshot_exp/snapshot_f3c.yaml exp_name female3c resume False
     # distributed training
-    python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False gpus "0, 1, 2, 3" distributed True
+    python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/snapshot_exp/snapshot_f3c.yaml exp_name female3c resume False gpus "0, 1, 2, 3" distributed True
     ```
 2. Train with white background:
     ```
     # training
-    python train_net.py --cfg_file configs/snapshot_f3c.yaml exp_name female3c resume False white_bkgd True
+    python train_net.py --cfg_file configs/snapshot_exp/snapshot_f3c.yaml exp_name female3c resume False white_bkgd True
     ```
 3. Tensorboard:
     ```
@@ -119,11 +119,11 @@ Take the test on `sequence 313` as an example.
 1. Download the corresponding pretrained model and put it to `$ROOT/data/trained_model/if_nerf/xyzc_313/latest.pth`.
 2. Test on training human poses:
     ```
-    python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313
+    python run.py --type evaluate --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313
     ```
 3. Test on unseen human poses:
     ```
-    python run.py --type evaluate --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 test_novel_pose True novel_pose_ni 100
+    python run.py --type evaluate --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 test_novel_pose True
     ```
 
 ### Visualization on ZJU-MoCap
@@ -134,41 +134,36 @@ Take the visualization on `sequence 313` as an example. The command lines for vi
 2. Visualization:
     * Visualize novel views of single frame
     ```
-    python run.py --type visualize --cfg_file configs/xyzc_demo_313.yaml exp_name xyzc_313 render_views 100
+    python run.py --type visualize --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 vis_novel_view True
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_render_313.gif)
 
     * Visualize novel views of single frame by rotating the SMPL model
     ```
-    python run.py --type visualize --cfg_file configs/xyzc_rotate_demo_313.yaml exp_name xyzc_313 render_views 100
+    python run.py --type visualize --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 vis_novel_view True num_render_views 100
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/rotate_smpl.gif)
 
     * Visualize views of dynamic humans with fixed camera
     ```
-    python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 1
+    python run.py --type visualize --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 vis_novel_pose True num_render_frame 1000 num_render_views 1
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_perform_fixed_313.gif) 
 
     * Visualize views of dynamic humans with rotated camera
     ```
-    python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_views 100
+    python run.py --type visualize --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 vis_novel_pose True num_render_frame 1000
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_perform_313.gif)
 
     * Visualize mesh
     ```
     # generate meshes
-    python run.py --type visualize --cfg_file configs/latent_xyzc_mesh_313.yaml exp_name xyzc_313 train.num_workers 0
+    python run.py --type visualize --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 vis_mesh True train.num_workers 0
     # visualize a specific mesh
     python tools/render_mesh.py --exp_name xyzc_313 --dataset zju_mocap --mesh_ind 0
     ```
     ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_mesh.gif)
-3. Visualization on unseen human poses:
-    ```
-    python run.py --type visualize --cfg_file configs/xyzc_perform_313.yaml exp_name xyzc_313 render_ni 500 render_views 1 
-    ```
-    ![zju_mocap](https://zju3dv.github.io/neuralbody/images/zju_mocap_novel_pose_313.gif)
 
 4. The results of visualization are located at `$ROOT/data/render/xyzc_313` and `$ROOT/data/perform/xyzc_313`.
 
@@ -179,14 +174,14 @@ Take the training on `sequence 313` as an example. The command lines for trainin
 1. Train:
     ```
     # training
-    python train_net.py --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 resume False
+    python train_net.py --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 resume False
     # distributed training
-    python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 resume False gpus "0, 1, 2, 3" distributed True
+    python -m torch.distributed.launch --nproc_per_node=4 train_net.py --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 resume False gpus "0, 1, 2, 3" distributed True
     ```
 2. Train with white background:
     ```
     # training
-    python train_net.py --cfg_file configs/latent_xyzc_313.yaml exp_name xyzc_313 resume False white_bkgd True
+    python train_net.py --cfg_file configs/zju_mocap_exp/latent_xyzc_313.yaml exp_name xyzc_313 resume False white_bkgd True
     ```
 3. Tensorboard:
     ```
