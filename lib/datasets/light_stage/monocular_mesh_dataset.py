@@ -10,10 +10,10 @@ from lib.config import cfg
 from lib.utils.if_nerf import if_nerf_data_utils as if_nerf_dutils
 from plyfile import PlyData
 from lib.utils import snapshot_data_utils as snapshot_dutils
-from . import snapshot
+from . import monocular_dataset
 
 
-class Dataset(snapshot.Dataset):
+class Dataset(monocular_dataset.Dataset):
     def __init__(self, data_root, human, ann_file, split):
         super(Dataset, self).__init__(data_root, human, ann_file, split)
 
