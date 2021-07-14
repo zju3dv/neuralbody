@@ -62,7 +62,7 @@ def get_near_far(bounds, ray_o, ray_d):
     p_intersect = d_intersect[..., None] * ray_d[:, None] + ray_o[:, None]
     # calculate the intersections located at the 3d bounding box
     min_x, min_y, min_z, max_x, max_y, max_z = bounds.ravel()
-    eps = 1e-6
+    eps = 1e-4
     p_mask_at_box = (p_intersect[..., 0] >= (min_x - eps)) * \
                     (p_intersect[..., 0] <= (max_x + eps)) * \
                     (p_intersect[..., 1] >= (min_y - eps)) * \
