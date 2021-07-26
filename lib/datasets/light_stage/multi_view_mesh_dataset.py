@@ -169,6 +169,7 @@ class Dataset(data.Dataset):
         R = cv2.Rodrigues(Rh)[0].astype(np.float32)
         latent_index = min(latent_index, cfg.num_train_frame - 1)
         meta = {
+            'wbounds': can_bounds,
             'bounds': bounds,
             'R': R,
             'Th': Th,

@@ -45,6 +45,10 @@ class Renderer(if_clight_renderer.Renderer):
 
         cube = np.pad(cube, 10, mode='constant')
         vertices, triangles = mcubes.marching_cubes(cube, cfg.mesh_th)
+
+        # vertices = (vertices - 10) * 0.005
+        # vertices = vertices + batch['wbounds'][0, 0].detach().cpu().numpy()
+
         mesh = trimesh.Trimesh(vertices, triangles)
 
         ret = {'cube': cube, 'mesh': mesh}
