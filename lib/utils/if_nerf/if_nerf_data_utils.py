@@ -53,36 +53,19 @@ def get_bound_2d_mask(bounds, K, pose, H, W):
 
 def get_near_far(bounds, ray_o, ray_d):
     """calculate intersections with 3d bounding box"""
-    bounds = bounds + np.array([-0.01, 0.01])[:, None]
-    nominator = bounds[None] - ray_o[:, None]
-    # calculate the step of intersections at six planes of the 3d bounding box
-    ray_d[np.abs(ray_d) < 1e-5] = 1e-5
-    d_intersect = (nominator / ray_d[:, None]).reshape(-1, 6)
-    # calculate the six interections
-    p_intersect = d_intersect[..., None] * ray_d[:, None] + ray_o[:, None]
-    # calculate the intersections located at the 3d bounding box
-    min_x, min_y, min_z, max_x, max_y, max_z = bounds.ravel()
-    eps = 1e-4
-    p_mask_at_box = (p_intersect[..., 0] >= (min_x - eps)) * \
-                    (p_intersect[..., 0] <= (max_x + eps)) * \
-                    (p_intersect[..., 1] >= (min_y - eps)) * \
-                    (p_intersect[..., 1] <= (max_y + eps)) * \
-                    (p_intersect[..., 2] >= (min_z - eps)) * \
-                    (p_intersect[..., 2] <= (max_z + eps))
-    # obtain the intersections of rays which intersect exactly twice
-    mask_at_box = p_mask_at_box.sum(-1) == 2
-    p_intervals = p_intersect[mask_at_box][p_mask_at_box[mask_at_box]].reshape(
-        -1, 2, 3)
-
-    # calculate the step of intersections
-    ray_o = ray_o[mask_at_box]
-    ray_d = ray_d[mask_at_box]
-    norm_ray = np.linalg.norm(ray_d, axis=1)
-    d0 = np.linalg.norm(p_intervals[:, 0] - ray_o, axis=1) / norm_ray
-    d1 = np.linalg.norm(p_intervals[:, 1] - ray_o, axis=1) / norm_ray
-    near = np.minimum(d0, d1)
-    far = np.maximum(d0, d1)
-
+    norm_d = np.linalg.norm(ray_d, axis=-1, keepdims=True)
+    viewdir = ray_d / norm_d
+    viewdir[(viewdir < 1e-5) & (viewdir > -1e-10)] = 1e-5
+    viewdir[(viewdir > -1e-5) & (viewdir < 1e-10)] = -1e-5
+    tmin = (bounds[:1] - ray_o[:1]) / viewdir
+    tmax = (bounds[1:2] - ray_o[:1]) / viewdir
+    t1 = np.minimum(tmin, tmax)
+    t2 = np.maximum(tmin, tmax)
+    near = np.max(t1, axis=-1)
+    far = np.min(t2, axis=-1)
+    mask_at_box = near < far
+    near = near[mask_at_box] / norm_d[mask_at_box, 0]
+    far = far[mask_at_box] / norm_d[mask_at_box, 0]
     return near, far, mask_at_box
 
 
