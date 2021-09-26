@@ -103,7 +103,7 @@ We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f
 
 ### Potential problems of provided smpl parameters
 
-1. The newly fitted parameters locate in `new_params`. Currently, the released pretrained models are trained on previously fitted parameters, which locate in `params`. We will release pretrained models on `new_params` recently.
+1. The newly fitted parameters locate in `new_params`. Currently, the released pretrained models are trained on previously fitted parameters, which locate in `params`.
 2. The smpl parameters of ZJU-MoCap have different definition from the one of MPI's smplx.
     * If you want to extract vertices from the provided smpl parameters, please use `zju_smpl/extract_vertices.py`.
     * The reason that we use the current definition is described at [here](https://github.com/zju3dv/EasyMocap/blob/master/doc/02_output.md#attention-for-smplsmpl-x-users).
