@@ -10,7 +10,7 @@ smpl_dir = 'data/zju_mocap/CoreView_313/params'
 verts_dir = 'data/zju_mocap/CoreView_313/vertices'
 
 # Previously, EasyMocap estimated SMPL parameters without pose blend shapes.
-# The newlly fitted SMPL parameters consider pose blend shapes.
+# The newly fitted SMPL parameters consider pose blend shapes.
 new_params = False
 if 'new' in os.path.basename(smpl_dir):
     new_params = True
