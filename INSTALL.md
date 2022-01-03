@@ -15,6 +15,7 @@ cd
 git clone https://github.com/traveller59/spconv --recursive
 cd spconv
 git checkout abf0acf30f5526ea93e687e3f424f62d9cd8313a
+git submodule update --init --recursive
 export CUDA_HOME="/usr/local/cuda-10.0"
 python setup.py bdist_wheel
 cd dist
