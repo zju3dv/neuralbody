@@ -91,7 +91,7 @@ def extract_mask(masks, mask_dir):
         cv2.imwrite(os.path.join(mask_dir, '{}.png'.format(i)), mask)
 
 
-data_root = 'data/people_snapshot'
+data_root = '../data/people_snapshot'
 videos = ['female-3-casual']
 
 model_paths = [
