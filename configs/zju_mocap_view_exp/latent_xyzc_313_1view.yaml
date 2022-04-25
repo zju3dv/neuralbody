@@ -6,15 +6,15 @@ parent_cfg: 'configs/zju_mocap_exp/latent_xyzc_313.yaml'
 human: 313
 
 train_dataset:
-    data_root: 'data/zju_mocap/CoreView_313'
+    data_root: '/cluster/scratch/tguillou/nb_data/zju_mocap/CoreView_313'
     human: 'CoreView_313'
-    ann_file: 'data/zju_mocap/CoreView_313/annots.npy'
+    ann_file: '/cluster/scratch/tguillou/nb_data/zju_mocap/CoreView_313/annots.npy'
     split: 'train'
 
 test_dataset:
-    data_root: 'data/zju_mocap/CoreView_313'
+    data_root: '/cluster/scratch/tguillou/nb_data/zju_mocap/CoreView_313'
     human: 'CoreView_313'
-    ann_file: 'data/zju_mocap/CoreView_313/annots.npy'
+    ann_file: '/cluster/scratch/tguillou/nb_data/zju_mocap/CoreView_313/annots.npy'
     split: 'test'
 
 # data options
