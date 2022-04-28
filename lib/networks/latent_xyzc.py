@@ -1,5 +1,6 @@
 import torch.nn as nn
 import spconv
+from spconv.pytorch import SparseSequential
 import torch.nn.functional as F
 import torch
 from lib.config import cfg
@@ -206,7 +207,7 @@ class SparseConvNet(nn.Module):
 
 
 def single_conv(in_channels, out_channels, indice_key=None):
-    return spconv.SparseSequential(
+    return SparseSequential(
         spconv.SubMConv3d(in_channels,
                           out_channels,
                           1,
@@ -218,7 +219,7 @@ def single_conv(in_channels, out_channels, indice_key=None):
 
 
 def double_conv(in_channels, out_channels, indice_key=None):
-    return spconv.SparseSequential(
+    return SparseSequential(
         spconv.SubMConv3d(in_channels,
                           out_channels,
                           3,
@@ -237,7 +238,7 @@ def double_conv(in_channels, out_channels, indice_key=None):
 
 
 def triple_conv(in_channels, out_channels, indice_key=None):
-    return spconv.SparseSequential(
+    return SparseSequential(
         spconv.SubMConv3d(in_channels,
                           out_channels,
                           3,
@@ -263,7 +264,7 @@ def triple_conv(in_channels, out_channels, indice_key=None):
 
 
 def stride_conv(in_channels, out_channels, indice_key=None):
-    return spconv.SparseSequential(
+    return SparseSequential(
         spconv.SparseConv3d(in_channels,
                             out_channels,
                             3,
