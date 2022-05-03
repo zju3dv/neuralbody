@@ -1,5 +1,4 @@
 import torch.nn as nn
-#import spconv
 import spconv.pytorch as spconv
 import torch.nn.functional as F
 import torch

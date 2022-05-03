@@ -6,6 +6,7 @@ import trimesh
 
 
 def update_loss_img(output, batch):
+    # TODO : Here we should probably also change the loss !
     mse = torch.mean((output['rgb_map'] - batch['rgb'])**2, dim=2)[0]
     mse = mse.detach().cpu().numpy().astype(np.float32)
 

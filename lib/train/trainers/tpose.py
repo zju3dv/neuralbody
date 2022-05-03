@@ -12,6 +12,7 @@ class NetworkWrapper(nn.Module):
         self.net = net
         self.renderer = tpose_renderer.Renderer(self.net)
 
+        # TODO : Should we change here the loss, i.e add a value lpips
         self.img2mse = lambda x, y : torch.mean((x - y) ** 2)
         self.acc_crit = torch.nn.functional.smooth_l1_loss
 
