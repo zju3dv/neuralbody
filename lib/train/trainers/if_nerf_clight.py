@@ -22,7 +22,9 @@ class NetworkWrapper(nn.Module):
         self.acc_crit = torch.nn.functional.smooth_l1_loss
 
     def forward(self, batch):
-        batch = batch.cuda()
+        for k in batch:
+            if k != 'meta':
+                batch[k] = batch[k].cuda()
         with torch.no_grad():
             ret = self.renderer.render(batch)
 
