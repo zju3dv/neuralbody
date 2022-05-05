@@ -28,8 +28,8 @@ class NetworkWrapper(nn.Module):
         scalar_stats = {}
         loss = 0
 
-        mask = batch['mask_at_box']
-        img_loss = self.img2mse(ret['rgb_map'][mask], batch['rgb'][mask])
+        #mask = batch['mask_at_box']
+        #img_loss = self.img2mse(ret['rgb_map'][mask], batch['rgb'][mask])
 
         ########################################## LPIPS PREP ##########################################
 
@@ -47,6 +47,7 @@ class NetworkWrapper(nn.Module):
         img_gt[mask_at_box] = rgb_gt
 
         #img_loss = np.mean((rgb_pred - rgb_gt)**2)
+        img_loss = self.img2mse(rgb_pred, rgb_gt)
 
         rgb_pred = img_pred
         rgb_gt = img_gt
