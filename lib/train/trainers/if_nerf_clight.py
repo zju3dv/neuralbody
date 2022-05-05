@@ -22,7 +22,8 @@ class NetworkWrapper(nn.Module):
         self.acc_crit = torch.nn.functional.smooth_l1_loss
 
     def forward(self, batch):
-        ret = self.renderer.render(batch)
+        with torch.no_grad():
+            ret = self.renderer.render(batch)
 
         scalar_stats = {}
         loss = 0
