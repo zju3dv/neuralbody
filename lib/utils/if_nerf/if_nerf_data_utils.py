@@ -160,7 +160,8 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     msk = msk * bound_mask
     bound_mask[msk == 100] = 0
 
-    if split == 'train':
+    #if split == 'train': ALWAYS TAKE TEST
+    if 0:
         nsampled_rays = 0
         face_sample_ratio = cfg.face_sample_ratio
         body_sample_ratio = cfg.body_sample_ratio
