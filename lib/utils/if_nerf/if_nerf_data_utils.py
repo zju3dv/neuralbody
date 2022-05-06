@@ -164,7 +164,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
 
     # coords in the bound_max
     bound_coords = np.argwhere(bound_mask==1)
-    print(bound_coords.shape)
 
     if split == 'train':
         ray_o_list = []
@@ -181,8 +180,8 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             coord_x = 16
             coord_y = 16
             # The entire patch must be in the bound_mask
-            while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
-            #while (bound_mask[coord_x - 16, coord_y - 16] != 1 or bound_mask[coord_x + 15, coord_y + 15] != 1 or coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
+            #while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
+            while (bound_mask[coord_x - 16, coord_y - 16] != 1 or bound_mask[coord_x + 15, coord_y + 15] != 1 or coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
                 coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
                 coord_x = coord[0]
                 coord_y = coord[1]
