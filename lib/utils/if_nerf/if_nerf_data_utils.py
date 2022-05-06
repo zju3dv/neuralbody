@@ -3,6 +3,7 @@ from lib.utils import base_utils
 import cv2
 from lib.config import cfg
 import trimesh
+from skimage.util import view_as_blocks
 
 
 def get_rays(H, W, K, R, T):
@@ -36,7 +37,7 @@ def get_bound_corners(bounds):
     ])
     return corners_3d
 
-
+# This function gives the 2D bound mask, i.e place where the human is.
 def get_bound_2d_mask(bounds, K, pose, H, W):
     corners_3d = get_bound_corners(bounds)
     corners_2d = base_utils.project(corners_3d, K, pose)
@@ -151,20 +152,18 @@ def sample_ray(img, msk, K, R, T, bounds, nrays, split):
 
 
 def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
+    # img = (H, W, 3)
     H, W = img.shape[:2]
     ray_o, ray_d = get_rays(H, W, K, R, T)
 
     pose = np.concatenate([R, T], axis=1)
-    bound_mask = get_bound_2d_mask(bounds, K, pose, H, W)
+    # This is the bound_mask which says where is the body in the 2d frame.
+    bound_mask = get_bound_2d_mask(bounds, K, pose, H, W) # (H, W)
 
     msk = msk * bound_mask
     bound_mask[msk == 100] = 0
 
-    #if split == 'train': ALWAYS TAKE TEST
-    if 0:
-        nsampled_rays = 0
-        face_sample_ratio = cfg.face_sample_ratio
-        body_sample_ratio = cfg.body_sample_ratio
+    if split == 'train':
         ray_o_list = []
         ray_d_list = []
         rgb_list = []
@@ -173,55 +172,47 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         coord_list = []
         mask_at_box_list = []
 
-        while nsampled_rays < nrays:
-            n_body = int((nrays - nsampled_rays) * body_sample_ratio)
-            n_face = int((nrays - nsampled_rays) * face_sample_ratio)
-            n_rand = (nrays - nsampled_rays) - n_body - n_face
+        for i in range(2):
+            # sample rays on body or face
+            coord = np.argwhere(msk == 1 or msk == 13) # (N, 2) in order : row 0 goes first etc
+            coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
 
-            # sample rays on body
-            coord_body = np.argwhere(msk == 1)
-            coord_body = coord_body[np.random.randint(0, len(coord_body),
-                                                      n_body)]
-            # sample rays on face
-            coord_face = np.argwhere(msk == 13)
-            if len(coord_face) > 0:
-                coord_face = coord_face[np.random.randint(
-                    0, len(coord_face), n_face)]
-            # sample rays in the bound mask
-            coord = np.argwhere(bound_mask == 1)
-            coord = coord[np.random.randint(0, len(coord), n_rand)]
+            patch_coords = np.zeros(32*32, 2)
+            for i, x in enumerate(coord[0] - 16, coord[0] + 17):
+                for j, y in range(coord[1] - 16, coord[1] + 17):
+                    patch_coords[i*j] = np.array([x, y])
 
-            if len(coord_face) > 0:
-                coord = np.concatenate([coord_body, coord_face, coord], axis=0)
-            else:
-                coord = np.concatenate([coord_body, coord], axis=0)
+            ray_o_ = ray_o[coord[0] - 16:coord[0] + 17, coord[1] - 16:coord[1] + 17] # Sample a 32*32 ray_o
+            ray_d_ = ray_d[coord[0] - 16:coord[0] + 17, coord[1] - 16:coord[1] + 17] # Sample a 32*32 ray_d
+            rgb_ = img[coord[0] - 16:coord[0] + 17, coord[1] - 16:coord[1] + 17] # Sample a 32*32 rgb
 
-            ray_o_ = ray_o[coord[:, 0], coord[:, 1]]
-            ray_d_ = ray_d[coord[:, 0], coord[:, 1]]
-            rgb_ = img[coord[:, 0], coord[:, 1]]
+            rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
+            ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
+            ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
 
-            near_, far_, mask_at_box = get_near_far(bounds, ray_o_, ray_d_)
+            near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
+            near_ = near.astype(np.float32)
+            far_ = far.astype(np.float32)
 
-            ray_o_list.append(ray_o_[mask_at_box])
-            ray_d_list.append(ray_d_[mask_at_box])
-            rgb_list.append(rgb_[mask_at_box])
+            ray_o_list.append(ray_o_reshaped[mask_at_box])
+            ray_d_list.append(ray_d_reshaped[mask_at_box])
+            rgb_list.append(rgb_reshaped[mask_at_box])
             near_list.append(near_)
             far_list.append(far_)
-            coord_list.append(coord[mask_at_box])
+            coord_list.append(patch_coords[mask_at_box])
             mask_at_box_list.append(mask_at_box[mask_at_box])
-            nsampled_rays += len(near_)
 
-        ray_o = np.concatenate(ray_o_list).astype(np.float32)
-        ray_d = np.concatenate(ray_d_list).astype(np.float32)
-        rgb = np.concatenate(rgb_list).astype(np.float32)
+        ray_o = np.concatenate(ray_o_list)
+        ray_d = np.concatenate(ray_d_list)
+        rgb = np.concatenate(rgb_list)
         near = np.concatenate(near_list).astype(np.float32)
         far = np.concatenate(far_list).astype(np.float32)
         coord = np.concatenate(coord_list)
         mask_at_box = np.concatenate(mask_at_box_list)
     else:
-        rgb = img.reshape(-1, 3).astype(np.float32)
-        ray_o = ray_o.reshape(-1, 3).astype(np.float32)
-        ray_d = ray_d.reshape(-1, 3).astype(np.float32)
+        rgb = img.reshape(-1, 3).astype(np.float32) # (H * W, 3)
+        ray_o = ray_o.reshape(-1, 3).astype(np.float32) # (H * W, 3)
+        ray_d = ray_d.reshape(-1, 3).astype(np.float32) # (H * W, 3)
         near, far, mask_at_box = get_near_far(bounds, ray_o, ray_d)
         near = near.astype(np.float32)
         far = far.astype(np.float32)
@@ -405,3 +396,62 @@ def get_rigid_transformation(poses, joints, parents):
     transforms = transforms.astype(np.float32)
 
     return transforms
+
+#if split == 'train': ALWAYS TAKE TEST
+    if 0:
+        nsampled_rays = 0
+        face_sample_ratio = cfg.face_sample_ratio
+        body_sample_ratio = cfg.body_sample_ratio
+        ray_o_list = []
+        ray_d_list = []
+        rgb_list = []
+        near_list = []
+        far_list = []
+        coord_list = []
+        mask_at_box_list = []
+
+        while nsampled_rays < nrays:
+            n_body = int((nrays - nsampled_rays) * body_sample_ratio)
+            n_face = int((nrays - nsampled_rays) * face_sample_ratio)
+            n_rand = (nrays - nsampled_rays) - n_body - n_face
+
+            # sample rays on body
+            coord_body = np.argwhere(msk == 1)
+            coord_body = coord_body[np.random.randint(0, len(coord_body),
+                                                      n_body)]
+            # sample rays on face
+            coord_face = np.argwhere(msk == 13)
+            if len(coord_face) > 0:
+                coord_face = coord_face[np.random.randint(
+                    0, len(coord_face), n_face)]
+            # sample rays in the bound mask
+            coord = np.argwhere(bound_mask == 1)
+            coord = coord[np.random.randint(0, len(coord), n_rand)]
+
+            if len(coord_face) > 0:
+                coord = np.concatenate([coord_body, coord_face, coord], axis=0)
+            else:
+                coord = np.concatenate([coord_body, coord], axis=0)
+
+            ray_o_ = ray_o[coord[:, 0], coord[:, 1]]
+            ray_d_ = ray_d[coord[:, 0], coord[:, 1]]
+            rgb_ = img[coord[:, 0], coord[:, 1]]
+
+            near_, far_, mask_at_box = get_near_far(bounds, ray_o_, ray_d_)
+
+            ray_o_list.append(ray_o_[mask_at_box])
+            ray_d_list.append(ray_d_[mask_at_box])
+            rgb_list.append(rgb_[mask_at_box])
+            near_list.append(near_)
+            far_list.append(far_)
+            coord_list.append(coord[mask_at_box])
+            mask_at_box_list.append(mask_at_box[mask_at_box])
+            nsampled_rays += len(near_)
+
+        ray_o = np.concatenate(ray_o_list).astype(np.float32)
+        ray_d = np.concatenate(ray_d_list).astype(np.float32)
+        rgb = np.concatenate(rgb_list).astype(np.float32)
+        near = np.concatenate(near_list).astype(np.float32)
+        far = np.concatenate(far_list).astype(np.float32)
+        coord = np.concatenate(coord_list)
+        mask_at_box = np.concatenate(mask_at_box_list)

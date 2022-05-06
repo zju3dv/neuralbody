@@ -22,54 +22,30 @@ class NetworkWrapper(nn.Module):
         self.acc_crit = torch.nn.functional.smooth_l1_loss
 
     def forward(self, batch):
-        for k in batch:
-            if k != 'meta':
-                batch[k] = batch[k].cuda()
-        with torch.no_grad():
-            ret = self.renderer.render(batch)
+        ret = self.renderer.render(batch)
 
         scalar_stats = {}
         loss = 0
 
-        #mask = batch['mask_at_box']
-        #img_loss = self.img2mse(ret['rgb_map'][mask], batch['rgb'][mask])
+        mask = batch['mask_at_box']
+
+        rgb_map = ret['rgb_map'][mask] # (G * 32 * 32, 3)
+        rgb_gt = batch['rgb'][mask] # (G * 32 * 32, 3)
+
+        img_loss = self.img2mse(rgb_map, rgb_gt)
 
         ########################################## LPIPS PREP ##########################################
 
-        rgb_pred = ret['rgb_map'][0]
-        rgb_gt = batch['rgb'][0]
+        # Normalise to [-1, 1]
+        rgb_map = (rgb_map[..., [2, 1, 0]] * 2) - 1
+        rgb_gt = (rgb_gt[..., [2, 1, 0]] * 2) - 1
 
-        mask_at_box = batch['mask_at_box'][0]
-        H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
-        mask_at_box = mask_at_box.reshape(H, W)
-        # convert the pixels into an image
-        white_bkgd = int(cfg.white_bkgd)
-        img_pred = torch.zeros((H, W, 3)) + white_bkgd
-        img_pred[mask_at_box] = rgb_pred
-        img_gt = torch.zeros((H, W, 3)) + white_bkgd
-        img_gt[mask_at_box] = rgb_gt
-
-        #img_loss = np.mean((rgb_pred - rgb_gt)**2)
-        img_loss = self.img2mse(rgb_pred, rgb_gt)
-
-        rgb_pred = img_pred
-        rgb_gt = img_gt
-        
-        # crop the object region
-        mask_at_box_np = batch['mask_at_box'][0].detach().cpu().numpy()
-        x, y, w, h = cv2.boundingRect(mask_at_box_np.astype(torch.uint8))
-        img_pred = img_pred[y:y + h, x:x + w]
-        img_gt = img_gt[y:y + h, x:x + w]
-        
-        img_pred = (img_pred[..., [2, 1, 0]] * 2) - 1
-        img_gt = (img_gt[..., [2, 1, 0]] * 2) - 1
-
-        # Transform (H, W, 3) in (1, 3, H, w)
-        img_pred = img_pred.permute(2, 0, 1)[None, :, :, :]
-        img_gt = img_gt.permute(2, 0, 1)[None, :, :, :]
+        # The tensor needs to be of size (G, 3, H, W) for LPIPS
+        lpips_map = rgb_map.view(2, 32, 32, 3).permute(0, 3, 1, 2)
+        lpips_gt = rgb_gt.view(2, 32, 32, 3).permute(0, 3, 1, 2)
 
         # compute lpips
-        img_lpips = self.lpips.forward(img_pred, img_gt)
+        img_lpips = self.lpips.forward(lpips_map, lpips_gt)
 
         ########################################## LPIPS PREP ##########################################
 
