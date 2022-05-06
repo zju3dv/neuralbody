@@ -164,6 +164,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
 
     # coords in the bound_max
     #bound_coords = np.argwhere(bound_mask==1)
+    print(bound_mask.shape)
 
     if split == 'train':
         ray_o_list = []
