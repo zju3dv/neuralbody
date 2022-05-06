@@ -177,8 +177,8 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
             coord_x = coord[0]
             coord_y = coord[1]
-            coords_x = np.arange(coord_x - 16, coord_x + 17)
-            coords_y = np.arange(coord_y - 16, coord_y + 17)
+            coords_x = np.arange(coord_x - 16, coord_x + 16)
+            coords_y = np.arange(coord_y - 16, coord_y + 16)
             assert(len(coords_x) == 32)
 
             patch_coords = np.zeros((32*32, 2))
