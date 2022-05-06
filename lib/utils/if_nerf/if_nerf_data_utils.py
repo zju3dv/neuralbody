@@ -174,9 +174,12 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         for i in range(2):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
-            coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
-            coord_x = coord[0]
-            coord_y = coord[1]
+            coord_x = 0
+            coord_y = 0
+            while (coord_y < 16 or coord_y > 1008):
+                coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
+                coord_x = coord[0]
+                coord_y = coord[1]
             coords_x = np.arange(coord_x - 16, coord_x + 16)
             coords_y = np.arange(coord_y - 16, coord_y + 16)
 
@@ -192,8 +195,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
-            if(len(rgb_reshaped) != 32*32):
-                print(" The shape was : " + len(rgb_reshaped))
 
             near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
             near_ = near_.astype(np.float32)
