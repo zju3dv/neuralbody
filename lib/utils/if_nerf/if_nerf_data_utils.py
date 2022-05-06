@@ -160,11 +160,11 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     bound_mask = get_bound_2d_mask(bounds, K, pose, H, W) # (H, W)
 
     msk = msk * bound_mask
-    bound_mask[msk == 100] = 0
+    bound_mask[msk == 100] = 0 # (512, 512)
 
     # coords in the bound_max
-    #bound_coords = np.argwhere(bound_mask==1)
-    print(bound_mask.shape)
+    bound_coords = np.argwhere(bound_mask==1)
+    print(bound_coords.shape)
 
     if split == 'train':
         ray_o_list = []
