@@ -176,11 +176,11 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             coord_x = 0
             coord_y = 0
-            while (coord_x < 16 or coord_x > 496):
+            while (coord_y < 16 or coord_y > 496):
                 coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
                 coord_x = coord[0]
                 coord_y = coord[1]
-                #print(coord_x)
+                print(coord_y)
             coords_x = np.arange(coord_x - 16, coord_x + 16)
             coords_y = np.arange(coord_y - 16, coord_y + 16)
 
