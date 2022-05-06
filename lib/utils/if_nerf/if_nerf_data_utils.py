@@ -175,6 +175,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
+            print(coord.shape)
 
             patch_coords = np.zeros((32*32, 2))
             for i, x in enumerate(coord[0] - 16, coord[0] + 17):
