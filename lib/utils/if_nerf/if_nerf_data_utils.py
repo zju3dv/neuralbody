@@ -163,7 +163,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     bound_mask[msk == 100] = 0 # (512, 512)
 
     # coords in the bound_max
-    bx, by, bw, bh = cv2.boundingRect(mask_at_box.astype(np.uint8))
+    bx, by, bw, bh = cv2.boundingRect(bound_mask.astype(np.uint8))
 
     if split == 'train':
         ray_o_list = []
