@@ -175,12 +175,15 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
-            coord_x = coord[0, 0]
-            coord_y = coord[0, 1]
+            coord_x = coord[0]
+            coord_y = coord[1]
+            coords_x = np.arange(coord_x - 16, coord_x + 17)
+            coords_y = np.arange(coord_y - 16, coord_y + 17)
+            assert(len(coords_x) == 32)
 
             patch_coords = np.zeros((32*32, 2))
-            for i, x in enumerate(coord_x - 16, coord_x + 17):
-                for j, y in range(coord_y - 16, coord_y + 17):
+            for i, x in enumerate(coords_x):
+                for j, y in enumerate(coords_y):
                     patch_coords[i*j] = np.array([x, y])
 
             ray_o_ = ray_o[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 ray_o
