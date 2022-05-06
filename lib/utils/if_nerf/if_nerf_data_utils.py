@@ -179,7 +179,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             coord_y = coord[1]
             coords_x = np.arange(coord_x - 16, coord_x + 16)
             coords_y = np.arange(coord_y - 16, coord_y + 16)
-            assert(len(coords_x) == 32)
 
             patch_coords = np.zeros((32*32, 2))
             for i, x in enumerate(coords_x):
@@ -193,6 +192,8 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
+            if(len(rgb_reshaped) != 32*32):
+                print(" The shape was : " + len(rgb_reshaped))
 
             near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
             near_ = near_.astype(np.float32)
