@@ -153,6 +153,7 @@ def sample_ray(img, msk, K, R, T, bounds, nrays, split):
 def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     # img = (H, W, 3)
     H, W = img.shape[:2]
+    print(H + " anddd " + W)
     ray_o, ray_d = get_rays(H, W, K, R, T)
 
     pose = np.concatenate([R, T], axis=1)
@@ -176,11 +177,10 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             coord_x = 0
             coord_y = 0
-            #while (coord_y < 16 or coord_y > 496):
-            coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
-            coord_x = 250
-            coord_y = 16
-            print(coord_y)
+            while (coord_y < 16 or coord_y > 496):
+                coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
+                coord_x = coord[0]
+                coord_y = coord[1]
             coords_x = np.arange(coord_x - 16, coord_x + 16)
             coords_y = np.arange(coord_y - 16, coord_y + 16)
 
