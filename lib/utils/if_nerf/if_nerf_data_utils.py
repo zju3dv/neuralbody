@@ -173,7 +173,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
 
         for i in range(2):
             # sample rays on body or face
-            coord = np.argwhere(np.any(msk == 1 or msk == 13)) # (N, 2) in order : row 0 goes first etc
+            coord = np.argwhere(msk == 1 | msk == 13) # (N, 2) in order : row 0 goes first etc
             coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
 
             patch_coords = np.zeros(32*32, 2)
