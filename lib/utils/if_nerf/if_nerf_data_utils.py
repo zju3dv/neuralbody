@@ -174,11 +174,11 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         for i in range(2):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
-            print(coord.shape)
             coord_x = 0
             coord_y = 0
             while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
                 coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
+                print(coord.shape)
                 coord_x = coord[0]
                 coord_y = coord[1]
             coords_x = np.arange(coord_x - 16, coord_x + 16)
