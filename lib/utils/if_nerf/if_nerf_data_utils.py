@@ -175,16 +175,17 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
-            print(coord.shape)
+            coord_x = coord[0, 0]
+            coord_y = coord[0, 1]
 
             patch_coords = np.zeros((32*32, 2))
-            for i, x in enumerate(coord[0] - 16, coord[0] + 17):
-                for j, y in range(coord[1] - 16, coord[1] + 17):
+            for i, x in enumerate(coord_x - 16, coord_x + 17):
+                for j, y in range(coord_y - 16, coord_y + 17):
                     patch_coords[i*j] = np.array([x, y])
 
-            ray_o_ = ray_o[coord[0] - 16:coord[0] + 17, coord[1] - 16:coord[1] + 17] # Sample a 32*32 ray_o
-            ray_d_ = ray_d[coord[0] - 16:coord[0] + 17, coord[1] - 16:coord[1] + 17] # Sample a 32*32 ray_d
-            rgb_ = img[coord[0] - 16:coord[0] + 17, coord[1] - 16:coord[1] + 17] # Sample a 32*32 rgb
+            ray_o_ = ray_o[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 ray_o
+            ray_d_ = ray_d[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 ray_d
+            rgb_ = img[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 rgb
 
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
