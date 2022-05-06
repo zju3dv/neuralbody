@@ -186,17 +186,17 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
                 for j, y in enumerate(coords_y):
                     patch_coords[i*j] = np.array([x, y])
 
-            ray_o_ = ray_o[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 ray_o
-            ray_d_ = ray_d[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 ray_d
-            rgb_ = img[coord_x - 16:coord_x + 17, coord_y - 16:coord_y + 17] # Sample a 32*32 rgb
+            ray_o_ = ray_o[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_o
+            ray_d_ = ray_d[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_d
+            rgb_ = img[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 rgb
 
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
 
             near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
-            near_ = near.astype(np.float32)
-            far_ = far.astype(np.float32)
+            near_ = near_.astype(np.float32)
+            far_ = far_.astype(np.float32)
 
             ray_o_list.append(ray_o_reshaped[mask_at_box])
             ray_d_list.append(ray_d_reshaped[mask_at_box])
