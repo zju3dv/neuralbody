@@ -192,6 +192,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             ray_o_ = ray_o[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_o
             ray_d_ = ray_d[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_d
             rgb_ = img[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 rgb
+            print(rgb_.shape)
 
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
