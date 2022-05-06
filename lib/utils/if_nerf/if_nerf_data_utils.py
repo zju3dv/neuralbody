@@ -153,7 +153,7 @@ def sample_ray(img, msk, K, R, T, bounds, nrays, split):
 def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     # img = (H, W, 3)
     H, W = img.shape[:2]
-    print(H + " anddd " + W)
+    print(H, " anddd ", W)
     ray_o, ray_d = get_rays(H, W, K, R, T)
 
     pose = np.concatenate([R, T], axis=1)
