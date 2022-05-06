@@ -151,9 +151,8 @@ def sample_ray(img, msk, K, R, T, bounds, nrays, split):
 
 
 def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
-    # img = (H, W, 3)
+    # img = (H, W, 3) = 512, 512, 3
     H, W = img.shape[:2]
-    print(H, " anddd ", W)
     ray_o, ray_d = get_rays(H, W, K, R, T)
 
     pose = np.concatenate([R, T], axis=1)
@@ -175,9 +174,10 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         for i in range(2):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
+            print(coord.shape)
             coord_x = 0
             coord_y = 0
-            while (coord_y < 16 or coord_y > 496):
+            while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
                 coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
                 coord_x = coord[0]
                 coord_y = coord[1]
@@ -192,7 +192,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             ray_o_ = ray_o[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_o
             ray_d_ = ray_d[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_d
             rgb_ = img[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 rgb
-            print(rgb_.shape)
 
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
