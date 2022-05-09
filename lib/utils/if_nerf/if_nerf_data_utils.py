@@ -180,8 +180,8 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             coord_x = 16
             coord_y = 16
             # The entire patch must be in the bound_mask
-            while (coord_x - 16 < bx or coord_x + 15 > (bx + bw) or coord_y - 16 < by or coord_y + 15 > (by + bh)):
-            #while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
+            #while (coord_x - 16 < bx or coord_x + 15 > (bx + bw) or coord_y - 16 < by or coord_y + 15 > (by + bh)):
+            while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
             #while (bound_mask[coord_x - 16, coord_y - 16] != 1 or bound_mask[coord_x + 15, coord_y + 15] != 1 or coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
                 coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
                 coord_x = coord[0]
@@ -201,6 +201,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
             rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
             ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
+            assert(rgb_reshaped.shape == (32*32, 3))
 
             near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
             near_ = near_.astype(np.float32)
