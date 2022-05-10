@@ -171,7 +171,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         coord_list = []
         mask_at_box_list = []
 
-        for i in range(4):
+        for i in range(6):
             # sample rays on body or face
             coords = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             
