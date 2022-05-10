@@ -151,11 +151,15 @@ class Dataset(data.Dataset):
         coord, out_sh, can_bounds, bounds, Rh, Th = self.prepare_input(
             i)
 
-        while True:
+        if self.split == "train":
+            while True:
+                rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_h36m(
+                    img, msk, K, R, T, can_bounds, self.nrays, self.split)
+                if (rgb[mask_at_box].shape == (2*32*32, 3)):
+                    break
+        else:
             rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_h36m(
                 img, msk, K, R, T, can_bounds, self.nrays, self.split)
-            if (rgb[mask_at_box].shape == (2*32*32, 3)):
-                break
 
         assert(rgb.shape == (2*32*32, 3))
 
