@@ -176,11 +176,11 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
 
         for i in range(2):
             # sample rays on body or face
-            coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
+            coords = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             
             # The entire patch must be in the bound_mask
             while True:
-                coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
+                coord = coords[np.random.randint(len(coords))] # take one coordinate (x, y)
                 coords_x = np.arange(coord[0] - 16, coord[0] + 16)
                 coords_y = np.arange(coord[1] - 16, coord[1] + 16)
 

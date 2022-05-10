@@ -2,10 +2,7 @@ import torch.nn as nn
 from lib.config import cfg
 import torch
 from lib.networks.renderer import if_clight_renderer
-from lib.train import make_optimizer
 import lpips
-import cv2
-import numpy as np
 
 
 class NetworkWrapper(nn.Module):
