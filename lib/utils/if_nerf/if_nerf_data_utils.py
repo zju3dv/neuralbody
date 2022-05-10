@@ -162,9 +162,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
     msk = msk * bound_mask
     bound_mask[msk == 100] = 0 # (512, 512)
 
-    # coords in the bound_max
-    bx, by, bw, bh = cv2.boundingRect(bound_mask.astype(np.uint8))
-
     if split == 'train':
         ray_o_list = []
         ray_d_list = []
@@ -198,6 +195,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
                 ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
 
                 near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
+                print(rgb_reshaped[mask_at_box].shape)
                 if (rgb_reshaped[mask_at_box].shape == (32*32, 3)):
                     break
             near_ = near_.astype(np.float32)
