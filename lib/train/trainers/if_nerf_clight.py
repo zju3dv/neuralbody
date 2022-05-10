@@ -15,8 +15,6 @@ class NetworkWrapper(nn.Module):
         self.net = net
         self.renderer = if_clight_renderer.Renderer(self.net)
 
-        # TODO : Should we change here the loss, i.e add a value lpips.
-        # The function uses mse and smooth l1
         self.img2mse = lambda x, y : torch.mean((x - y) ** 2)
         self.lpips = lpips.LPIPS(net='vgg')
         self.acc_crit = torch.nn.functional.smooth_l1_loss
@@ -32,7 +30,7 @@ class NetworkWrapper(nn.Module):
         rgb_map = ret['rgb_map'][mask] # (G * 32 * 32, 3)
         rgb_gt = batch['rgb'][mask] # (G * 32 * 32, 3)
 
-        img_loss = self.img2mse(rgb_map, rgb_gt)
+        img_mse = self.img2mse(rgb_map, rgb_gt)
 
         ########################################## LPIPS PREP ##########################################
 
@@ -49,10 +47,11 @@ class NetworkWrapper(nn.Module):
 
         ########################################## LPIPS PREP ##########################################
 
-        scalar_stats.update({'img_loss': img_loss})
-        loss += (0.2 * img_loss + img_lpips)
+        scalar_stats.update({'img_loss': img_mse})
+        loss += (0.2 * img_mse + img_lpips)
 
         if 'rgb0' in ret:
+            print("yess")
             img_loss0 = self.img2mse(ret['rgb0'], batch['rgb'])
             scalar_stats.update({'img_loss0': img_loss0})
             loss += img_loss0

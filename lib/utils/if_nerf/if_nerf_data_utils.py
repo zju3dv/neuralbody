@@ -177,33 +177,29 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         for i in range(2):
             # sample rays on body or face
             coord = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
-            coord_x = 16
-            coord_y = 16
+            
             # The entire patch must be in the bound_mask
-            #while (coord_x - 16 < bx or coord_x + 15 > (bx + bw) or coord_y - 16 < by or coord_y + 15 > (by + bh)):
-            while (coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
-            #while (bound_mask[coord_x - 16, coord_y - 16] != 1 or bound_mask[coord_x + 15, coord_y + 15] != 1 or coord_y < 20 or coord_y > 490 or coord_x < 20 or coord_x > 490):
+            while True:
                 coord = coord[np.random.randint(len(coord))] # take one coordinate (x, y)
-                coord_x = coord[0]
-                coord_y = coord[1]
-            coords_x = np.arange(coord_x - 16, coord_x + 16)
-            coords_y = np.arange(coord_y - 16, coord_y + 16)
+                coords_x = np.arange(coord[0] - 16, coord[0] + 16)
+                coords_y = np.arange(coord[1] - 16, coord[1] + 16)
 
-            patch_coords = np.zeros((32*32, 2))
-            for i, x in enumerate(coords_x):
-                for j, y in enumerate(coords_y):
-                    patch_coords[i*j] = np.array([x, y])
+                patch_coords = np.zeros((32*32, 2))
+                for i, x in enumerate(coords_x):
+                    for j, y in enumerate(coords_y):
+                        patch_coords[i*j] = np.array([x, y])
 
-            ray_o_ = ray_o[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_o
-            ray_d_ = ray_d[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 ray_d
-            rgb_ = img[coord_x - 16:coord_x + 16, coord_y - 16:coord_y + 16] # Sample a 32*32 rgb
+                ray_o_ = ray_o[coord[0] - 16:coord[0] + 16, coord[1] - 16:coord[1] + 16] # Sample a 32*32 ray_o
+                ray_d_ = ray_d[coord[0] - 16:coord[0] + 16, coord[1] - 16:coord[1] + 16] # Sample a 32*32 ray_d
+                rgb_ = img[coord[0] - 16:coord[0] + 16, coord[1] - 16:coord[1] + 16] # Sample a 32*32 rgb
 
-            rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
-            ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
-            ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
-            assert(rgb_reshaped.shape == (32*32, 3))
+                rgb_reshaped = rgb_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
+                ray_o_reshaped = ray_o_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
+                ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
 
-            near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
+                near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
+                if (rgb_reshaped[mask_at_box].shape == (2*32*32, 3)):
+                    break
             near_ = near_.astype(np.float32)
             far_ = far_.astype(np.float32)
 
