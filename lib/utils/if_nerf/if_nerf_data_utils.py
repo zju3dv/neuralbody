@@ -171,7 +171,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
         coord_list = []
         mask_at_box_list = []
 
-        for i in range(2):
+        for i in range(4):
             # sample rays on body or face
             coords = np.argwhere((msk == 1) | (msk == 13)) # (N, 2) in order : row 0 goes first etc
             
@@ -195,7 +195,6 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
                 ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
 
                 near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
-                print(rgb_reshaped[mask_at_box].shape)
                 if (rgb_reshaped[mask_at_box].shape == (32*32, 3)):
                     break
             near_ = near_.astype(np.float32)

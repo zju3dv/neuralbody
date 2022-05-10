@@ -36,8 +36,8 @@ class NetworkWrapper(nn.Module):
         rgb_gt = (rgb_gt[..., [2, 1, 0]] * 2) - 1
 
         # The tensor needs to be of size (G, 3, H, W) for LPIPS
-        lpips_map = rgb_map.view(2, 32, 32, 3).permute(0, 3, 1, 2)
-        lpips_gt = rgb_gt.view(2, 32, 32, 3).permute(0, 3, 1, 2)
+        lpips_map = rgb_map.view(4, 32, 32, 3).permute(0, 3, 1, 2)
+        lpips_gt = rgb_gt.view(4, 32, 32, 3).permute(0, 3, 1, 2)
 
         # compute lpips
         img_lpips = self.lpips.forward(lpips_map, lpips_gt) # This returns d, a legnth N tensor (i.e length 2 here)
