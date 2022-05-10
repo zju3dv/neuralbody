@@ -40,7 +40,8 @@ class NetworkWrapper(nn.Module):
         lpips_gt = rgb_gt.view(2, 32, 32, 3).permute(0, 3, 1, 2)
 
         # compute lpips
-        img_lpips = self.lpips.forward(lpips_map, lpips_gt)
+        img_lpips = self.lpips.forward(lpips_map, lpips_gt) # This returns d, a legnth N tensor (i.e length 2 here)
+        img_lpips = torch.mean(img_lpips) # We do the mean between the lpips patches results
 
         ########################################## LPIPS PREP ##########################################
 

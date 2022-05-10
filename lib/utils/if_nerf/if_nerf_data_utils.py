@@ -198,7 +198,7 @@ def sample_ray_h36m(img, msk, K, R, T, bounds, nrays, split):
                 ray_d_reshaped = ray_d_.reshape(-1, 3).astype(np.float32) # (32 * 32, 3)
 
                 near_, far_, mask_at_box = get_near_far(bounds, ray_o_reshaped, ray_d_reshaped)
-                if (rgb_reshaped[mask_at_box].shape == (2*32*32, 3)):
+                if (rgb_reshaped[mask_at_box].shape == (32*32, 3)):
                     break
             near_ = near_.astype(np.float32)
             far_ = far_.astype(np.float32)
