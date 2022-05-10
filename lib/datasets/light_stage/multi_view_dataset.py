@@ -161,8 +161,6 @@ class Dataset(data.Dataset):
             rgb, ray_o, ray_d, near, far, coord_, mask_at_box = if_nerf_dutils.sample_ray_h36m(
                 img, msk, K, R, T, can_bounds, self.nrays, self.split)
 
-        assert(rgb.shape == (2*32*32, 3))
-
         ret = {
             'coord': coord,
             'out_sh': out_sh,
