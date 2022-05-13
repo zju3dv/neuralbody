@@ -3,6 +3,7 @@ from lib.config import cfg
 from skimage.measure import compare_ssim
 import os
 import cv2
+import lpips
 from termcolor import colored
 
 
@@ -11,6 +12,25 @@ class Evaluator:
         self.mse = []
         self.psnr = []
         self.ssim = []
+        self.lpips_f = lpips.LPIPS(net='vgg')
+        self.lpips = []
+
+    def lpips_metric(self, img_pred, img_gt, batch):
+        if not cfg.eval_whole_img:
+            mask_at_box = batch['mask_at_box'][0].detach().cpu().numpy()
+            H, W = int(cfg.H * cfg.ratio), int(cfg.W * cfg.ratio)
+            mask_at_box = mask_at_box.reshape(H, W)
+            # crop the object region
+            x, y, w, h = cv2.boundingRect(mask_at_box.astype(np.uint8))
+            img_pred = img_pred[y:y + h, x:x + w]
+            img_gt = img_gt[y:y + h, x:x + w]
+
+        img_pred = (img_pred[..., [2, 1, 0]] * 2) - 1
+        img_gt = (img_gt[..., [2, 1, 0]] * 2) - 1
+
+        # compute the lpips
+        lpips = self.lpips_f(img_pred, img_gt)
+        return lpips
 
     def psnr_metric(self, img_pred, img_gt):
         mse = np.mean((img_pred - img_gt)**2)
@@ -73,6 +93,9 @@ class Evaluator:
         ssim = self.ssim_metric(rgb_pred, rgb_gt, batch)
         self.ssim.append(ssim)
 
+        lpips = self.lpips_metric(rgb_pred, rgb_gt, batch)
+        self.lpips.append(lpips)
+
     def summarize(self):
         result_dir = cfg.result_dir
         print(
@@ -81,11 +104,13 @@ class Evaluator:
 
         result_path = os.path.join(cfg.result_dir, 'metrics.npy')
         os.system('mkdir -p {}'.format(os.path.dirname(result_path)))
-        metrics = {'mse': self.mse, 'psnr': self.psnr, 'ssim': self.ssim}
+        metrics = {'mse': self.mse, 'psnr': self.psnr, 'ssim': self.ssim, 'lpips': self.lpips}
         np.save(result_path, metrics)
         print('mse: {}'.format(np.mean(self.mse)))
         print('psnr: {}'.format(np.mean(self.psnr)))
         print('ssim: {}'.format(np.mean(self.ssim)))
+        print('lpips: {}'.format(np.mean(self.lpips)))
         self.mse = []
         self.psnr = []
         self.ssim = []
+        self.lpips = []
