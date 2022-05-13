@@ -17,13 +17,11 @@ if cfg.fix_random:
 
 def train(cfg, network):
 
-    ########## LOSS RELATED STUFF SHOULD BE HERE ##########
     trainer = make_trainer(cfg, network)
     optimizer = make_optimizer(cfg, network)
     scheduler = make_lr_scheduler(cfg, optimizer)
     recorder = make_recorder(cfg)
     evaluator = make_evaluator(cfg)
-    ########## LOSS RELATED STUFF SHOULD BE HERE ##########
 
     begin_epoch = load_model(network,
                              optimizer,
@@ -100,7 +98,6 @@ def main():
                                              init_method="env://")
         synchronize()
 
-    # Make network is creating the network from lib/networks/latent_xyzc (no loss func relation)
     network = make_network(cfg)
     if args.test:
         test(cfg, network)
