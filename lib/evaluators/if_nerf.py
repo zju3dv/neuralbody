@@ -29,6 +29,10 @@ class Evaluator:
         img_pred = (img_pred[..., [2, 1, 0]] * 2) - 1
         img_gt = (img_gt[..., [2, 1, 0]] * 2) - 1
 
+        print(img_pred.shape)
+        print(img_gt.shape)
+        assert(img_pred.shape == img_gt.shape)
+
         # compute the lpips
         lpips = self.lpips_f(torch.tensor(img_pred), torch.tensor(img_gt))
         return lpips
