@@ -32,8 +32,8 @@ class Evaluator:
         h = img_pred.shape[0]
         w = img_pred.shape[1]
 
-        lpips_pred = torch.tensor(img_pred).view(1, h, w, 3).permute(0, 3, 1, 2)
-        lpips_gt = torch.tensor(img_gt).view(1, h, w, 3).permute(0, 3, 1, 2)
+        lpips_pred = torch.tensor(img_pred.astype(np.float32)).view(1, h, w, 3).permute(0, 3, 1, 2)
+        lpips_gt = torch.tensor(img_gt.astype(np.float32)).view(1, h, w, 3).permute(0, 3, 1, 2)
 
         # compute the lpips
         lpips = self.lpips_f(lpips_pred, lpips_gt)
