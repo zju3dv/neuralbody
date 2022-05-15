@@ -48,7 +48,6 @@ class NetworkWrapper(nn.Module):
         loss += (0.2 * img_mse + img_lpips)
 
         if 'rgb0' in ret:
-            print("yess")
             img_loss0 = self.img2mse(ret['rgb0'], batch['rgb'])
             scalar_stats.update({'img_loss0': img_loss0})
             loss += img_loss0
