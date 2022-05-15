@@ -14,6 +14,7 @@ class NetworkWrapper(nn.Module):
 
         self.img2mse = lambda x, y : torch.mean((x - y) ** 2)
         self.lpips = lpips.LPIPS(net='vgg')
+        self.acc_crit = torch.nn.functional.smooth_l1_loss
 
     def forward(self, batch):
         ret = self.renderer.render(batch)
