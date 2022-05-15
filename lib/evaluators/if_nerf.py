@@ -37,7 +37,7 @@ class Evaluator:
 
         # compute the lpips
         lpips = self.lpips_f(lpips_pred, lpips_gt)
-        return lpips
+        return lpips.item()
 
     def psnr_metric(self, img_pred, img_gt):
         mse = np.mean((img_pred - img_gt)**2)
