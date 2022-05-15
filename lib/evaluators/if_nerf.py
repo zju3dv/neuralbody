@@ -4,6 +4,7 @@ from skimage.measure import compare_ssim
 import os
 import cv2
 import lpips
+import torch
 from termcolor import colored
 
 
@@ -29,7 +30,7 @@ class Evaluator:
         img_gt = (img_gt[..., [2, 1, 0]] * 2) - 1
 
         # compute the lpips
-        lpips = self.lpips_f(img_pred, img_gt)
+        lpips = self.lpips_f(torch.tensor(img_pred), torch.tensor(img_gt))
         return lpips
 
     def psnr_metric(self, img_pred, img_gt):
