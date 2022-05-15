@@ -29,12 +29,14 @@ class Evaluator:
         img_pred = (img_pred[..., [2, 1, 0]] * 2) - 1
         img_gt = (img_gt[..., [2, 1, 0]] * 2) - 1
 
-        print(img_pred.shape)
-        print(img_gt.shape)
-        assert(img_pred.shape == img_gt.shape)
+        h = img_pred.shape[0]
+        w = img_pred.shape[1]
+
+        lpips_pred = torch.tensor(img_pred).view(1, h, w, 3).permute(0, 3, 1, 2)
+        lpips_gt = torch.tensor(img_gt).view(1, h, w, 3).permute(0, 3, 1, 2)
 
         # compute the lpips
-        lpips = self.lpips_f(torch.tensor(img_pred), torch.tensor(img_gt))
+        lpips = self.lpips_f(lpips_pred, lpips_gt)
         return lpips
 
     def psnr_metric(self, img_pred, img_gt):
