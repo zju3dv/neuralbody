@@ -166,7 +166,7 @@ class Dataset(data.Dataset):
         }
 
         R = cv2.Rodrigues(Rh)[0].astype(np.float32)
-        latent_index = frame_index - cfg.begin_ith_frame
+        latent_index = (frame_index - cfg.begin_ith_frame) // cfg.frame_interval
         if cfg.test_novel_pose:
             latent_index = cfg.num_train_frame - 1
         meta = {
