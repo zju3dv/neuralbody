@@ -4,15 +4,15 @@ gpus: [0]
 parent_cfg: 'configs/zju_mocap_exp/latent_xyzc_313.yaml'
 
 train_dataset:
-    data_root: 'data/h36m/S9/Posing'
-    human: 'S9'
-    ann_file: 'data/h36m/S9/Posing/annots.npy'
+    data_root: 'data/h36m/S11/Posing'
+    human: 'S11'
+    ann_file: 'data/h36m/S11/Posing/annots.npy'
     split: 'train'
 
 test_dataset:
-    data_root: 'data/h36m/S9/Posing'
-    human: 'S9'
-    ann_file: 'data/h36m/S9/Posing/annots.npy'
+    data_root: 'data/h36m/S11/Posing'
+    human: 'S11'
+    ann_file: 'data/h36m/S11/Posing/annots.npy'
     split: 'test'
 
 # data options
@@ -21,7 +21,7 @@ W: 1000
 ratio: 1.
 training_view: [0, 1, 2]
 begin_ith_frame: 0
-num_train_frame: 260
+num_train_frame: 200
 frame_interval: 5
 smpl: 'smpl'
 vertices: 'new_vertices'
