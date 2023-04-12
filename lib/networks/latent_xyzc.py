@@ -54,7 +54,7 @@ class Network(nn.Module):
         dhw = dhw / torch.tensor(cfg.voxel_size).to(dhw)
         # convert the voxel coordinate to [-1, 1]
         out_sh = torch.tensor(sp_input['out_sh']).to(dhw)
-        dhw = dhw / out_sh * 2 - 1
+        dhw = dhw / (out_sh - 1) * 2 - 1
         # convert dhw to whd, since the occupancy is indexed by dhw
         grid_coords = dhw[..., [2, 1, 0]]
         return grid_coords
