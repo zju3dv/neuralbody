@@ -18,7 +18,7 @@ The following table shows the detailed frame numbers for training and test of ea
 
 ## Evaluation metrics
 
-**We save our rendering results on novel views of training frames and unseen human poses at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Ea3VOUy204VAiVJ-V-OGd9YBxdhbtfpS-U6icD_rDq0mUQ?e=cAcylK).**
+**We save our rendering results on novel views of training frames and unseen human poses at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/EnUrfwjXLRhLqLP0u4DobZMBQ7iyXl2iDq7TzuBVlPRPnw?e=6zato1).**
 
 As described in the paper, we evaluate our model in terms of the PSNR and SSIM metrics.
 
