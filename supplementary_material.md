@@ -224,7 +224,7 @@ The following table lists corresponding results.
 
 ## Results of other methods on ZJU-MoCap
 
-We save rendering results of other methods on novel views of training frames and unseen human poses at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/EQaPRQww70NDqEXeSG-fOeAB5JXFSWiWDW223h5nmkHvwQ?e=mdofbl), including Neural Volumes, Multi-view Neural Human Rendering, and Deferred Neural Human Rendering. **Note that we only generate novel views of training frames for Neural Volumes.**
+We save rendering results of other methods on novel views of training frames and unseen human poses at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/EnUrfwjXLRhLqLP0u4DobZMBQ7iyXl2iDq7TzuBVlPRPnw?e=6zato1), including Neural Volumes, Multi-view Neural Human Rendering, and Deferred Neural Human Rendering. **Note that we only generate novel views of training frames for Neural Volumes.**
 
 The following table lists quantitative results of Neural Volumes.
 
