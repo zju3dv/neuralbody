@@ -49,7 +49,7 @@ def get_img_paths():
     return all_ims
 
 
-def gen_params_vertices(filename, param_in, vert_out):
+def gen_params_vertices(filename, param_in, param_out, vert_out):
     param_in_full = osp.join(param_in, filename)
     root = int(osp.splitext(filename)[0])
 
@@ -58,6 +58,11 @@ def gen_params_vertices(filename, param_in, vert_out):
     Rh = np.array(params['Rh'])
     Th = np.array(params['Th'])
     shapes = np.array(params['shapes'])
+
+    # the params of neural body
+    params = {'poses': poses, 'Rh': Rh, 'Th': Th, 'shapes': shapes}
+    # np.save('params_0.npy', params)
+    np.save(osp.join(param_out, "{}.npy".format(root)), params)
 
     ori_poses = np.zeros((1, bodymodel.NUM_POSES_FULL))
     ori_poses[..., 3:] = poses
@@ -86,6 +91,7 @@ if args.type == 'annots':
     np.save('annots.npy', annot)
 else:
     param_in = os.path.join(args.input_dir, 'output-smpl-3d/smpl/')
+    param_out = osp.join(args.input_dir, 'params')
     vert_out = osp.join(args.input_dir, 'vertices')
     cfg_path = osp.join(args.input_dir, 'output-smpl-3d/cfg_model.yml')
 
@@ -101,7 +107,7 @@ else:
     bodymodel: SMPLModel = load_object(cfg_model.module, cfg_model.args)
 
     for filename in tqdm.tqdm(sorted(os.listdir(param_in))):
-        gen_params_vertices(filename, param_in, vert_out)
+        gen_params_vertices(filename, param_in, param_out, vert_out)
         
 # generate annots.npy
 # python easymocap_to_neuralbody.py --input_dir {data_dir} --type annots
