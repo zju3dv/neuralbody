@@ -93,7 +93,7 @@ else:
     param_in = os.path.join(args.input_dir, 'output-smpl-3d/smpl/')
     param_out = osp.join(args.input_dir, 'params')
     vert_out = osp.join(args.input_dir, 'vertices')
-    cfg_path = osp.join(args.input_dir, 'output-smpl-3d/cfg_model.yml')
+    cfg_path = 'cfg_model.yml'
 
     os.system(f"mkdir -p {vert_out}")
 
