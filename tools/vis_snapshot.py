@@ -56,7 +56,7 @@ def render_smpl(vertices, img, K, R, T):
 data_root = 'data/people_snapshot'
 video = 'female-3-casual'
 
-# if you do not have these smpl models, you could download them from https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Eb_JIyA74O1Cnfhvn1ddrG4BC9TMK31022TykVxGdRenUQ?e=JU8pPt
+# if you do not have these smpl models, you could download them from https://drive.google.com/file/d/1HCVcZPu7UOe1Vv4OHHEoGmVUfKyLFq5d/view?usp=sharing
 model_paths = [
     'basicModel_f_lbs_10_207_0_v1.0.0.pkl',
     'basicmodel_m_lbs_10_207_0_v1.0.0.pkl'
