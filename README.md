@@ -34,7 +34,7 @@ Please see [CUSTOM](tools/custom).
 
 Please see [INSTALL.md](INSTALL.md) to download the dataset.
 
-We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
+We provide the pretrained models at [here](https://drive.google.com/drive/folders/1yR2KauFaM7kvQgsdlS_qsj9u9Y9qu9C-?usp=sharing).
 
 ### Process People-Snapshot
 
@@ -99,7 +99,7 @@ Take the training on `female-3-casual` as an example. The command lines for trai
 
 Please see [INSTALL.md](INSTALL.md) to download the dataset.
 
-We provide the pretrained models at [here](https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Enn43YWDHwBEg-XBqnetFYcBLr3cItZ0qUFU-oKUpDHKXw?e=FObjE9).
+We provide the pretrained models at [here](https://drive.google.com/drive/folders/1yR2KauFaM7kvQgsdlS_qsj9u9Y9qu9C-?usp=sharing).
 
 ### Potential problems of provided smpl parameters
 
