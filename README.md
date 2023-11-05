@@ -1,18 +1,23 @@
 **News**
 
+* `11/04/2023` The enhanced version of the paper has been accepted to T-PAMI. We update information about the journal version of the paper.
 * `05/17/2021` To make the comparison on ZJU-MoCap easier, we save quantitative and qualitative results of other methods at [here](https://github.com/zju3dv/neuralbody/blob/master/supplementary_material.md#results-of-other-methods-on-zju-mocap), including Neural Volumes, Multi-view Neural Human Rendering, and Deferred Neural Human Rendering.
 * `05/13/2021` To make the following works easier compare with our model, we save our rendering results of ZJU-MoCap at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Ea3VOUy204VAiVJ-V-OGd9YBxdhbtfpS-U6icD_rDq0mUQ?e=cAcylK) and write a [document](supplementary_material.md) that describes the training and test protocols.
 * `05/12/2021` The code supports the test and visualization on unseen human poses.
 * `05/12/2021` We update the ZJU-MoCap dataset with better fitted SMPL using [EasyMocap](https://github.com/zju3dv/EasyMocap). We also release a [website](https://zju3dv.github.io/zju_mocap/) for visualization. Please see [here](https://github.com/zju3dv/neuralbody#potential-problems-of-provided-smpl-parameters) for the usage of provided smpl parameters.
 
 # Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans
-### [Project Page](https://zju3dv.github.io/neuralbody) | [Video](https://www.youtube.com/watch?v=BPCAMeBCE-8) | [Paper](https://arxiv.org/pdf/2012.15838.pdf) | [Data](https://github.com/zju3dv/neuralbody/blob/master/INSTALL.md#zju-mocap-dataset)
+### [Project Page](https://zju3dv.github.io/neuralbody) | [Video](https://www.youtube.com/watch?v=BPCAMeBCE-8) | [Journal Paper](https://ieeexplore.ieee.org/document/10045794) | [Conference Paper](https://arxiv.org/pdf/2012.15838.pdf) | [Data](https://github.com/zju3dv/neuralbody/blob/master/INSTALL.md#zju-mocap-dataset)
 
 ![monocular](https://zju3dv.github.io/neuralbody/images/monocular.gif)
 
 > [Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans](https://arxiv.org/pdf/2012.15838.pdf)  
 > Sida Peng, Yuanqing Zhang, Yinghao Xu, Qianqian Wang, Qing Shuai, Hujun Bao, Xiaowei Zhou  
 > CVPR 2021
+
+> [Implicit Neural Representations with Structured Latent Codes for Human Body Modeling](https://ieeexplore.ieee.org/document/10045794)  
+> Sida Peng, Chen Geng, Yuanqing Zhang, Yinghao Xu, Qianqian Wang, Qing Shuai, Hujun Bao, Xiaowei Zhou  
+> TPAMI 2023
 
 Any questions or discussions are welcomed!
 
@@ -193,6 +198,14 @@ Take the training on `sequence 313` as an example. The command lines for trainin
 If you find this code useful for your research, please use the following BibTeX entry.
 
 ```
+@article{peng2023implicit,
+  title={Implicit Neural Representations with Structured Latent Codes for Human Body Modeling},
+  author={Peng, Sida and Geng, Chen and Zhang, Yuanqing and Xu, Yinghao and Wang, Qianqian and Shuai, Qing and Zhou, Xiaowei and Bao, Hujun},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year={2023},
+  publisher={IEEE}
+}
+
 @inproceedings{peng2021neural,
   title={Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans},
   author={Peng, Sida and Zhang, Yuanqing and Xu, Yinghao and Wang, Qianqian and Shuai, Qing and Bao, Hujun and Zhou, Xiaowei},
