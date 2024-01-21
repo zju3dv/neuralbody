@@ -1,5 +1,6 @@
 **News**
 
+* `01/21/2024` We release the [Mobile-Stage dataset](https://docs.google.com/forms/d/e/1FAIpQLSeEbjuTV7w0lfryl-9FPX1VteuPGkbqjDvxXebY02Tm6BMejQ/viewform?usp=sf_link) and [SyntheticHuman++ dataset](https://docs.google.com/forms/d/e/1FAIpQLSctrS3NZ5pThqQzakvitykNgJxpGifT9AOKEtWYZ_JqFQIb3w/viewform?usp=sf_link).
 * `11/04/2023` The enhanced version of the paper has been accepted to T-PAMI. We update information about the journal version of the paper.
 * `05/17/2021` To make the comparison on ZJU-MoCap easier, we save quantitative and qualitative results of other methods at [here](https://github.com/zju3dv/neuralbody/blob/master/supplementary_material.md#results-of-other-methods-on-zju-mocap), including Neural Volumes, Multi-view Neural Human Rendering, and Deferred Neural Human Rendering.
 * `05/13/2021` To make the following works easier compare with our model, we save our rendering results of ZJU-MoCap at [here](https://zjueducn-my.sharepoint.com/:u:/g/personal/pengsida_zju_edu_cn/Ea3VOUy204VAiVJ-V-OGd9YBxdhbtfpS-U6icD_rDq0mUQ?e=cAcylK) and write a [document](supplementary_material.md) that describes the training and test protocols.
